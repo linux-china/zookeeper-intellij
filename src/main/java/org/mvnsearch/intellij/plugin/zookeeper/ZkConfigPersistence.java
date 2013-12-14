@@ -1,6 +1,7 @@
 package org.mvnsearch.intellij.plugin.zookeeper;
 
 import com.intellij.openapi.components.*;
+import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.generate.tostring.util.StringUtil;
@@ -10,14 +11,14 @@ import org.jetbrains.generate.tostring.util.StringUtil;
  *
  * @author linux_china
  */
-@State(name = "ZooKeeperConfig", storages = {@Storage(id = "main", file = StoragePathMacros.APP_CONFIG + "//zookeeper_config.xml")})
+@State(name = "ZooKeeperConfig", storages = {@Storage(id = "main", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/zookeeper_config.xml")})
 public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPersistence> {
     public String host;
     public Integer port;
     public boolean enabled;
 
-    public static ZkConfigPersistence getInstance() {
-        return ServiceManager.getService(ZkConfigPersistence.class);
+    public static ZkConfigPersistence getInstance(Project project) {
+        return ServiceManager.getService(project, ZkConfigPersistence.class);
     }
 
     @Nullable
