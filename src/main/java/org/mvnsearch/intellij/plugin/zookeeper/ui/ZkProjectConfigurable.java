@@ -2,6 +2,7 @@ package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent;
@@ -14,15 +15,17 @@ import javax.swing.*;
  *
  * @author linux_china
  */
-public class ZkApplicationConfigurable implements Configurable {
+public class ZkProjectConfigurable implements Configurable {
+    private Project project;
     private JPanel root;
     private JTextField hostTextField;
     private JTextField portTextField;
     private JCheckBox enableZooKeeperCheckBox;
     private ZkConfigPersistence config;
 
-    public ZkApplicationConfigurable() {
-        this.config = ZkConfigPersistence.getInstance();
+    public ZkProjectConfigurable(Project project) {
+        this.project = project;
+        this.config = ZkConfigPersistence.getInstance(project);
         reset();
     }
 
@@ -45,7 +48,7 @@ public class ZkApplicationConfigurable implements Configurable {
         String newHost = hostTextField.getText().trim();
         String newPort = portTextField.getText().trim();
         return !(newHost.equals(config.host) && Integer.valueOf(newPort).equals(config.port)
-                && config.enabled==enableZooKeeperCheckBox.isSelected());
+                && config.enabled == enableZooKeeperCheckBox.isSelected());
     }
 
     public void apply() throws ConfigurationException {
