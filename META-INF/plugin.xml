@@ -45,7 +45,6 @@
                     factoryClass="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkTreeToolWindow"/>
         <applicationService serviceInterface="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"
                             serviceImplementation="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"/>
-        <editorTabColorProvider implementation="org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkEditorTabColorProvider"/>
         <virtualFileSystem key="zk" implementationClass="org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkVirtualFileSystem"/>
     </extensions>
 </idea-plugin>
