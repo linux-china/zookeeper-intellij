@@ -9,9 +9,11 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.data.Stat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ import java.util.List;
  * @author linux_china
  */
 public class ZkNodeVirtualFile extends VirtualFile {
+    private ZkVirtualFileSystem fileSystem;
     private String filePath;
     private String fileName;
     private boolean isLeaf;
@@ -29,7 +32,8 @@ public class ZkNodeVirtualFile extends VirtualFile {
     private final long myTimeStamp = System.currentTimeMillis();
     private long myModStamp = LocalTimeCounter.currentTime();
 
-    public ZkNodeVirtualFile(String filePath) {
+    public ZkNodeVirtualFile(ZkVirtualFileSystem fileSystem, String filePath) {
+        this.fileSystem = fileSystem;
         this.filePath = filePath;
         fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         this.stat = new Stat();
@@ -52,7 +56,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     @NotNull
     public VirtualFileSystem getFileSystem() {
-        return ZkVirtualFileSystem.getInstance();
+        return this.fileSystem;
     }
 
     public String getPath() {
@@ -89,7 +93,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
             if (children != null && !children.isEmpty()) {
                 VirtualFile[] files = new VirtualFile[children.size()];
                 for (int i = 0; i < children.size(); i++) {
-                    files[i] = new ZkNodeVirtualFile(children.get(i));
+                    files[i] = new ZkNodeVirtualFile(fileSystem, children.get(i));
                 }
                 return files;
             }
@@ -150,7 +154,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public CuratorFramework getCurator() {
-        return ZkApplicationComponent.getInstance().getCurator();
+        return fileSystem.getCurator();
     }
 
     public boolean equals(Object obj) {
