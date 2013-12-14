@@ -18,7 +18,8 @@ public class ZkEditorTabColorProvider implements EditorTabColorProvider {
     public Color getEditorTabColor(Project project, VirtualFile virtualFile) {
         if (virtualFile instanceof ZkNodeVirtualFile) {
             return JBColor.ORANGE;
+        } else {
+            return JBColor.RED;
         }
-        return null;
     }
 }

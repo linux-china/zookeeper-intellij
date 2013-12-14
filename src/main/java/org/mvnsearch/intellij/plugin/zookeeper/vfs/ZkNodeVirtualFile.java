@@ -20,7 +20,6 @@ import java.util.List;
  * @author linux_china
  */
 public class ZkNodeVirtualFile extends VirtualFile {
-    private ZkVirtualFileSystem fileSystem;
     private String filePath;
     private String fileName;
     private boolean isLeaf;
@@ -30,8 +29,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     private final long myTimeStamp = System.currentTimeMillis();
     private long myModStamp = LocalTimeCounter.currentTime();
 
-    public ZkNodeVirtualFile(ZkVirtualFileSystem fileSystem, String filePath) {
-        this.fileSystem = fileSystem;
+    public ZkNodeVirtualFile(String filePath) {
         this.filePath = filePath;
         fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         this.stat = new Stat();
@@ -54,7 +52,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     @NotNull
     public VirtualFileSystem getFileSystem() {
-        return this.fileSystem;
+        return ZkVirtualFileSystem.getInstance();
     }
 
     public String getPath() {
@@ -91,7 +89,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
             if (children != null && !children.isEmpty()) {
                 VirtualFile[] files = new VirtualFile[children.size()];
                 for (int i = 0; i < children.size(); i++) {
-                    files[i] = new ZkNodeVirtualFile(this.fileSystem, children.get(i));
+                    files[i] = new ZkNodeVirtualFile(children.get(i));
                 }
                 return files;
             }

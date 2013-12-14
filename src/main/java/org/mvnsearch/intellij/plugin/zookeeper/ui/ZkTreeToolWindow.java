@@ -76,8 +76,7 @@ public class ZkTreeToolWindow implements ToolWindowFactory, MouseListener {
             TreePath treePath = source.getSelectionPath();
             ZkNode selectedNode = (ZkNode) treePath.getLastPathComponent();
             if (selectedNode.isLeaf()) {
-                ZkVirtualFileSystem fileSystem = ZkApplicationComponent.getInstance().getFileSystem();
-                VirtualFile file = fileSystem.findFileByPath(selectedNode.getFilePath());
+                VirtualFile file = ZkVirtualFileSystem.getInstance().findFileByPath(selectedNode.getFilePath());
                 if (file != null && project != null) {
                     new OpenFileDescriptor(project, file).navigate(true);
                 }
