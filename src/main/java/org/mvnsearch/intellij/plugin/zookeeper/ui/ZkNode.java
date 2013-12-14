@@ -56,6 +56,10 @@ public class ZkNode {
         }
     }
 
+    public ZkNode getSubNode(String subNodeName) {
+        return new ZkNode(getFilePath(), subNodeName);
+    }
+
     @Override
     public String toString() {
         return name == null ? ROOT_NAME : name;
