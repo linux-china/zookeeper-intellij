@@ -2,14 +2,11 @@ package org.mvnsearch.intellij.plugin.zookeeper.vfs;
 
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileListener;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.openapi.vfs.ex.dummy.DummyFileSystem;
 import org.apache.curator.framework.CuratorFramework;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent;
 
 import java.io.IOException;
 
@@ -20,12 +17,10 @@ import java.io.IOException;
  */
 public class ZkVirtualFileSystem extends DummyFileSystem {
     public static final String PROTOCOL = "zk";
+    private CuratorFramework curator;
 
-    public ZkVirtualFileSystem() {
-    }
-
-    public static ZkVirtualFileSystem getInstance() {
-        return (ZkVirtualFileSystem) VirtualFileManager.getInstance().getFileSystem(PROTOCOL);
+    public ZkVirtualFileSystem(CuratorFramework curator) {
+        this.curator = curator;
     }
 
     @NotNull
@@ -35,7 +30,7 @@ public class ZkVirtualFileSystem extends DummyFileSystem {
 
     @Nullable
     public VirtualFile findFileByPath(@NotNull @NonNls String path) {
-        return new ZkNodeVirtualFile(path);
+        return new ZkNodeVirtualFile(this, path);
     }
 
     public void refresh(boolean b) {
@@ -75,7 +70,7 @@ public class ZkVirtualFileSystem extends DummyFileSystem {
 
     public void renameFile(Object o, @NotNull VirtualFile virtualFile, @NotNull String name) throws IOException {
         String newFilePath = virtualFile.getPath().substring(0, virtualFile.getPath().indexOf("/")) + "/" + name;
-        moveFile(o, virtualFile, new ZkNodeVirtualFile(newFilePath));
+        moveFile(o, virtualFile, new ZkNodeVirtualFile(this, newFilePath));
     }
 
     public VirtualFile createChildFile(Object o, @NotNull VirtualFile virtualFile, @NotNull String fileName) throws IOException {
@@ -85,7 +80,7 @@ public class ZkVirtualFileSystem extends DummyFileSystem {
         } catch (Exception ignore) {
 
         }
-        return new ZkNodeVirtualFile(filePath);
+        return new ZkNodeVirtualFile(this, filePath);
     }
 
     @NotNull
@@ -96,7 +91,7 @@ public class ZkVirtualFileSystem extends DummyFileSystem {
         } catch (Exception ignore) {
 
         }
-        return new ZkNodeVirtualFile(filePath);
+        return new ZkNodeVirtualFile(this, filePath);
     }
 
     public VirtualFile copyFile(Object o, @NotNull VirtualFile virtualFile, @NotNull VirtualFile virtualFile2, @NotNull String s) throws IOException {
@@ -113,6 +108,6 @@ public class ZkVirtualFileSystem extends DummyFileSystem {
     }
 
     public CuratorFramework getCurator() {
-        return ZkApplicationComponent.getInstance().getCurator();
+        return this.curator;
     }
 }
