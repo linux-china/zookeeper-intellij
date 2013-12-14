@@ -1,6 +1,6 @@
 package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
-import org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent;
+import org.apache.curator.framework.CuratorFramework;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
@@ -15,8 +15,10 @@ import java.util.List;
  */
 public class ZkTreeModel implements TreeModel {
     private ZkNode root = new ZkNode("/", null);
+    private CuratorFramework curator;
 
-    public ZkTreeModel() {
+    public ZkTreeModel(CuratorFramework curator) {
+        this.curator = curator;
     }
 
     public Object getRoot() {
@@ -61,7 +63,7 @@ public class ZkTreeModel implements TreeModel {
     public List<ZkNode> getChildren(ZkNode node) {
         List<ZkNode> children = new ArrayList<ZkNode>();
         try {
-            List<String> nodes = ZkApplicationComponent.getInstance().getCurator().getChildren().forPath(node.getFilePath());
+            List<String> nodes = curator.getChildren().forPath(node.getFilePath());
             for (String temp : nodes) {
                 children.add(new ZkNode(node.getFilePath(), temp));
             }
