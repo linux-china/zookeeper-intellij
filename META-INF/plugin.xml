@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<idea-plugin version="2">
+    <id>zookeeper</id>
+    <name>IntelliJ IDEA ZooKeeper Plugin</name>
+    <version>0.0.1</version>
+    <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
+        Jacky Chan
+    </vendor>
+
+    <description><![CDATA[
+       Manager ZooKeeper in IntelliJ IDEA
+      ]]></description>
+
+    <change-notes><![CDATA[
+      Initial version
+      ]]>
+    </change-notes>
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="133.0"/>
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products -->
+    <depends>com.intellij.modules.java</depends>
+
+    <application-components>
+        <!-- Add your application components here -->
+        <component>
+            <implementation-class>org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent</implementation-class>
+        </component>
+    </application-components>
+
+    <project-components>
+        <!-- Add your project components here -->
+    </project-components>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="OpenZooKeeperNode" class="org.mvnsearch.intellij.plugin.zookeeper.OpenZooKeeperNode" text="OpenZooKeeperNode">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable instance="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkApplicationConfigurable"/>
+        <toolWindow id="ZooKeeper" icon="/icons/zookeeper_small.png" anchor="left"
+                    factoryClass="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkTreeToolWindow"/>
+        <applicationService serviceInterface="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"
+                            serviceImplementation="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"/>
+        <editorTabColorProvider implementation="org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkEditorTabColorProvider"/>
+    </extensions>
+</idea-plugin>
