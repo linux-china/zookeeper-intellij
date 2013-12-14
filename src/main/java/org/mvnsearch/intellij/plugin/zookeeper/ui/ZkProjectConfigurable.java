@@ -5,7 +5,6 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
-import org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence;
 
 import javax.swing.*;
@@ -55,7 +54,6 @@ public class ZkProjectConfigurable implements Configurable {
         config.host = hostTextField.getText().trim();
         config.port = Integer.valueOf(portTextField.getText().trim());
         config.enabled = enableZooKeeperCheckBox.isEnabled();
-        ZkApplicationComponent.getInstance().resetZkConfig();
     }
 
     public void reset() {
