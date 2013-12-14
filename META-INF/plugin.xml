@@ -37,9 +37,6 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="OpenZooKeeperNode" class="org.mvnsearch.intellij.plugin.zookeeper.OpenZooKeeperNode" text="OpenZooKeeperNode">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
