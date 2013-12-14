@@ -26,25 +26,29 @@
 
     <application-components>
         <!-- Add your application components here -->
-        <component>
-            <implementation-class>org.mvnsearch.intellij.plugin.zookeeper.ZkApplicationComponent</implementation-class>
-        </component>
     </application-components>
 
     <project-components>
         <!-- Add your project components here -->
+        <component>
+            <implementation-class>org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent</implementation-class>
+        </component>
     </project-components>
 
     <actions>
         <!-- Add your actions here -->
+        <group id="ZK.OperationMenu" text="ZooKeeper Operations" popup="true">
+            <action id="Create Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.CreateNodeAction"
+                    icon="/actions/new.png" text="Create Node"/>
+            <separator/>
+            <action id="Delete Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.DeleteNodeAction"
+                    icon="/actions/delete.png" text="Delete Node"/>
+        </group>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable instance="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkApplicationConfigurable"/>
-        <toolWindow id="ZooKeeper" icon="/icons/zookeeper_small.png" anchor="left"
-                    factoryClass="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkTreeToolWindow"/>
-        <applicationService serviceInterface="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"
-                            serviceImplementation="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"/>
-        <virtualFileSystem key="zk" implementationClass="org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkVirtualFileSystem"/>
+        <projectConfigurable instance="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkProjectConfigurable"/>
+        <projectService serviceInterface="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"
+                        serviceImplementation="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"/>
     </extensions>
 </idea-plugin>
