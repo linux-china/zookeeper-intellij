@@ -37,6 +37,10 @@
 
     <actions>
         <!-- Add your actions here -->
+        <group id="ZK.Toolbar" text="ZooKeeper ToolBar">
+            <action id="ZkTreeRefreshAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.ZkTreeRefreshAction"
+                    icon="/actions/refresh.png" text="Refresh" description="Refresh ZooKeeper"/>
+        </group>
         <group id="ZK.OperationMenu" text="ZooKeeper Operations" popup="true">
             <action id="Create Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.CreateNodeAction"
                     icon="/actions/new.png" text="Create Node"/>
