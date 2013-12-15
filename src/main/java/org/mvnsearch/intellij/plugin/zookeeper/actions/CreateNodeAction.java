@@ -33,28 +33,33 @@ public class CreateNodeAction extends AnAction {
         builder.setOkOperation(new Runnable() {
             public void run() {
                 String nodeName = jTextField.getText();
-                ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(anActionEvent.getProject());
-                if (StringUtil.isNotEmpty(jTextField.getText())) {
-                    Tree zkTree = zkProjectComponent.getZkTree();
-                    TreePath treePath = zkTree.getSelectionPath();
-                    CuratorFramework curator = zkProjectComponent.getCurator();
-                    ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
-                    try {
-                        ZkNode newNode = currentNode.getSubNode(nodeName);
-                        curator.create().forPath(newNode.getFilePath(), "".getBytes());
-                        zkProjectComponent.reloadZkTree();
-                        FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(nodeName);
-                        if (!fileType.getName().equals(FileTypes.UNKNOWN.getName())) {
-                            VirtualFile virtualFile = zkProjectComponent.getFileSystem().findFileByPath(newNode.getFilePath());
-                            if (anActionEvent.getProject() != null && virtualFile != null) {
-                                new OpenFileDescriptor(anActionEvent.getProject(), virtualFile).navigate(true);
-                            }
-                        }
-                    } catch (Exception ignore) {
-                        ignore.printStackTrace();
+                if (StringUtil.isNotEmpty(nodeName)) {
+                    if (nodeName.startsWith("/")) {
+                        nodeName = nodeName.substring(1);
                     }
-                    builder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
+                    ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(anActionEvent.getProject());
+                    if (StringUtil.isNotEmpty(jTextField.getText())) {
+                        Tree zkTree = zkProjectComponent.getZkTree();
+                        TreePath treePath = zkTree.getSelectionPath();
+                        CuratorFramework curator = zkProjectComponent.getCurator();
+                        ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
+                        try {
+                            ZkNode newNode = currentNode.getSubNode(nodeName);
+                            curator.create().forPath(newNode.getFilePath(), "".getBytes());
+                            zkProjectComponent.reloadZkTree();
+                            FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(nodeName);
+                            if (!fileType.getName().equals(FileTypes.UNKNOWN.getName())) {
+                                VirtualFile virtualFile = zkProjectComponent.getFileSystem().findFileByPath(newNode.getFilePath());
+                                if (anActionEvent.getProject() != null && virtualFile != null) {
+                                    new OpenFileDescriptor(anActionEvent.getProject(), virtualFile).navigate(true);
+                                }
+                            }
+                        } catch (Exception ignore) {
+                            ignore.printStackTrace();
+                        }
+                    }
                 }
+                builder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
             }
         });
         builder.showModal(true);
