@@ -158,7 +158,7 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         }
         ZkConfigPersistence config = ZkConfigPersistence.getInstance(project);
         if (config.isAvailable()) {
-            this.curator = CuratorFrameworkFactory.newClient(config.getUrl(), new ExponentialBackoffRetry(1000, 1));
+            this.curator = CuratorFrameworkFactory.newClient(config.getUrl(), new ExponentialBackoffRetry(1000, 0, 1000));
             curator.start();
         }
     }
