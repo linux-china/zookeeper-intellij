@@ -3,6 +3,7 @@ package org.mvnsearch.intellij.plugin.zookeeper;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.actions.CollapseAllAction;
 import com.intellij.ide.actions.ExpandAllAction;
+import com.intellij.ide.ui.customization.CustomizationUtil;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
@@ -18,6 +19,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.ui.DoubleClickListener;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
@@ -47,7 +49,7 @@ import java.awt.event.MouseEvent;
  *
  * @author linux_china
  */
-public class ZkProjectComponent extends MouseAdapter implements ProjectComponent {
+public class ZkProjectComponent extends DoubleClickListener implements ProjectComponent {
     private Project project;
     private CuratorFramework curator;
     private Tree zkTree;
@@ -90,7 +92,8 @@ public class ZkProjectComponent extends MouseAdapter implements ProjectComponent
         ZkNode.ROOT_NAME = ZkConfigPersistence.getInstance(project).getUrl();
         zkTree = new Tree(new ZkTreeModel(curator));
         zkTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        zkTree.addMouseListener(this);
+        this.installOn(zkTree);
+        CustomizationUtil.installPopupHandler(zkTree, "ZK.OperationMenu", ActionPlaces.UNKNOWN);
         zkTree.setCellRenderer(new DefaultTreeRenderer() {
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
@@ -131,25 +134,17 @@ public class ZkProjectComponent extends MouseAdapter implements ProjectComponent
         }
     }
 
-
-    public void mouseClicked(MouseEvent mouseEvent) {
+    protected boolean onDoubleClick(MouseEvent mouseEvent) {
         Tree source = (Tree) mouseEvent.getSource();
-        if (mouseEvent.getButton() == 3) {
-            ActionGroup operations = (ActionGroup) ActionManager.getInstance().getAction("ZK.OperationMenu");
-            final DataContext context = DataManager.getInstance().getDataContext(source);
-            ListPopup listPopup = JBPopupFactory.getInstance().createActionGroupPopup("ZooKeeper Operations", operations,
-                    context, JBPopupFactory.ActionSelectionAid.MNEMONICS, true);
-            listPopup.show(new RelativePoint(mouseEvent));
-        } else if (mouseEvent.getClickCount() == 2) {
-            TreePath treePath = source.getSelectionPath();
-            ZkNode selectedNode = (ZkNode) treePath.getLastPathComponent();
-            if (selectedNode.isLeaf()) {
-                VirtualFile file = fileSystem.findFileByPath(selectedNode.getFilePath());
-                if (file != null && project != null) {
-                    new OpenFileDescriptor(project, file).navigate(true);
-                }
+        TreePath treePath = source.getSelectionPath();
+        ZkNode selectedNode = (ZkNode) treePath.getLastPathComponent();
+        if (selectedNode.isLeaf()) {
+            VirtualFile file = fileSystem.findFileByPath(selectedNode.getFilePath());
+            if (file != null && project != null) {
+                new OpenFileDescriptor(project, file).navigate(true);
             }
         }
+        return true;
     }
 
     public Tree getZkTree() {
