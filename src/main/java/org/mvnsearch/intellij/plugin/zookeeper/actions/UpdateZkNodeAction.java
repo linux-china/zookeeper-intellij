@@ -2,10 +2,14 @@ package org.mvnsearch.intellij.plugin.zookeeper.actions;
 
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.wm.StatusBarInfo;
+import com.intellij.util.messages.Topic;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkNodeVirtualFile;
 
@@ -24,7 +28,8 @@ public class UpdateZkNodeAction extends EditorAction {
                 if (virtualFile != null && virtualFile instanceof ZkNodeVirtualFile) {
                     ZkNodeVirtualFile nodeFile = (ZkNodeVirtualFile) virtualFile;
                     String nodeContent = editor.getDocument().getText();
-                    ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(CommonDataKeys.PROJECT.getData(dataContext));
+                    Project project = CommonDataKeys.PROJECT.getData(dataContext);
+                    ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
                     try {
                         zkProjectComponent.getCurator().setData().forPath(nodeFile.getFilePath(), nodeContent.getBytes());
                     } catch (Exception e) {
