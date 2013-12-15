@@ -108,7 +108,8 @@ public class ZkNodeVirtualFile extends VirtualFile {
         return new ByteArrayOutputStream() {
             @Override
             public void close() {
-                setContent(requestor, toByteArray(), newModificationStamp);
+                // disable save to update node operation
+                //setContent(requestor, toByteArray(), newModificationStamp);
             }
         };
     }
