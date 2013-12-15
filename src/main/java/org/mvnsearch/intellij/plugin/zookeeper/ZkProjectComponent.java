@@ -1,29 +1,23 @@
 package org.mvnsearch.intellij.plugin.zookeeper;
 
-import com.intellij.ide.DataManager;
-import com.intellij.ide.actions.CollapseAllAction;
-import com.intellij.ide.actions.ExpandAllAction;
 import com.intellij.ide.ui.customization.CustomizationUtil;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.DoubleClickListener;
-import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
-import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
 import org.apache.curator.framework.CuratorFramework;
@@ -37,11 +31,9 @@ import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkTreeModel;
 import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkVirtualFileSystem;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
