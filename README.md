@@ -11,4 +11,7 @@ ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in ID
 * Right click ZK tree node to Create Node Delete Node
 * Refresh ZK tree on tool window bar
 
+### RoadMap
 
+* Code completion for Curator and ZooKeeper Client
+* ZK node stat
