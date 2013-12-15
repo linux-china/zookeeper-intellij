@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <idea-plugin version="2">
     <id>zookeeper</id>
-    <name>IntelliJ IDEA ZooKeeper Plugin</name>
+    <name>ZooKeeper</name>
     <version>0.0.1</version>
     <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
         Jacky Chan
     </vendor>
 
-    <description><![CDATA[
-       Manager ZooKeeper in IntelliJ IDEA
-      ]]></description>
+    <description><![CDATA[<html><body>
+    	Manage ZooKeeper in IntelliJ IDEA.
+    	<br/>
+    	After install ZooKeeper plugin, please open "Preferences" to set connection information in "ZooKeeper" item,
+    	then you will find a "ZooKeeper" tool windown, click "ZooKeeper" tool window to visit ZK file system.
+    	<br/>
+    	<ul>
+    		<li>Double click the leaf to edit node value</li>
+    		<li>Right click editor to update node value into ZooKeeper</li>
+    		<li>Right click ZK tree to execute "add" or "delete" operation</li>
+    		<li>Click "Refresh" button on "ZooKeeper" tool window to reload ZK tree</li>
+    	</ul>
+    	</body></html>]]>
+    </description>
 
-    <change-notes><![CDATA[
-      Initial version
-      ]]>
+    <change-notes><![CDATA[<html><body>
+         <ul>
+                <li>0.0.1: initial version</li>
+         </ul>
+        </body></html>]]>
     </change-notes>
 
     <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
