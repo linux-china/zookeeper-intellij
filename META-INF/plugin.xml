@@ -36,7 +36,6 @@
     </project-components>
 
     <actions>
-        <!-- Add your actions here -->
         <group id="ZK.Toolbar" text="ZooKeeper ToolBar">
             <action id="ZkTreeRefreshAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.ZkTreeRefreshAction"
                     icon="/actions/refresh.png" text="Refresh" description="Refresh ZooKeeper"/>
@@ -48,6 +47,10 @@
             <action id="Delete Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.DeleteNodeAction"
                     icon="/actions/delete.png" text="Delete Node"/>
         </group>
+        <action id="UpdateZkNodeAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.UpdateZkNodeAction"
+               icon="/icons/zookeeper_small.png" text="Update ZK Node" description="Update ZooKeeper Node">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
