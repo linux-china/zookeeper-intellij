@@ -152,7 +152,7 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         return curator;
     }
 
-    private void initZk() {
+    public void initZk() {
         if (this.curator != null) {
             this.curator.close();
         }
