@@ -26,13 +26,14 @@ public class DeleteNodeAction extends AnAction {
         final ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
         final DialogBuilder builder = new DialogBuilder(anActionEvent.getProject());
         builder.setTitle("Delete Node");
-        final JLabel jTextField = new JLabel(currentNode.getFilePath());
+        final JLabel jTextField = new JLabel("Path: " + currentNode.getFilePath());
         builder.setCenterPanel(jTextField);
         builder.setOkOperation(new Runnable() {
             public void run() {
                 CuratorFramework curator = zkProjectComponent.getCurator();
                 try {
                     curator.delete().forPath(currentNode.getFilePath());
+                    zkProjectComponent.reloadzkTree();
                 } catch (Exception ignore) {
 
                 }

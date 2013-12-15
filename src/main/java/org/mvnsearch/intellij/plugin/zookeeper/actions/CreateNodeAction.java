@@ -34,7 +34,8 @@ public class CreateNodeAction extends AnAction {
                     CuratorFramework curator = zkProjectComponent.getCurator();
                     ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
                     try {
-                        curator.create().forPath(currentNode.getSubNode(nodeName).getFilePath(), new byte[0]);
+                        curator.create().forPath(currentNode.getSubNode(nodeName).getFilePath(), "".getBytes());
+                        zkProjectComponent.reloadzkTree();
                     } catch (Exception ignore) {
                         ignore.printStackTrace();
                     }
