@@ -3,9 +3,11 @@ package org.mvnsearch.intellij.plugin.zookeeper.ui;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.ToolWindowManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence;
+import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 
 import javax.swing.*;
 
@@ -53,7 +55,15 @@ public class ZkProjectConfigurable implements Configurable {
     public void apply() throws ConfigurationException {
         config.host = hostTextField.getText().trim();
         config.port = Integer.valueOf(portTextField.getText().trim());
-        config.enabled = enableZooKeeperCheckBox.isEnabled();
+        boolean oldEnabled = config.enabled;
+        config.enabled = enableZooKeeperCheckBox.isSelected();
+        if (!oldEnabled && config.enabled) {
+            ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
+            zkProjectComponent.initZk();
+            if (ToolWindowManager.getInstance(project).getToolWindow("ZooKeeper") == null) {
+                zkProjectComponent.initToolWindow();
+            }
+        }
     }
 
     public void reset() {
