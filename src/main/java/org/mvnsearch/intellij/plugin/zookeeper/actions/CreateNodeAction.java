@@ -23,6 +23,7 @@ public class CreateNodeAction extends AnAction {
         final DialogBuilder builder = new DialogBuilder(anActionEvent.getProject());
         builder.setTitle("Create Node");
         final JTextField jTextField = new JTextField();
+        builder.setPreferredFocusComponent(jTextField);
         builder.setCenterPanel(jTextField);
         builder.setOkOperation(new Runnable() {
             public void run() {
