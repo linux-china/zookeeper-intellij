@@ -10,10 +10,7 @@ import org.apache.zookeeper.data.Stat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -137,7 +134,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public InputStream getInputStream() throws IOException {
-        throw new UnsupportedOperationException("Method getInputStream is not yet implemented in " + getClass().getName());
+        return new ByteArrayInputStream(content);
     }
 
     public void setContent(@Nullable Object requestor, byte[] content, long newModificationStamp) {
