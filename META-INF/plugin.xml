@@ -48,7 +48,7 @@
                     icon="/actions/delete.png" text="Delete Node"/>
         </group>
         <action id="UpdateZkNodeAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.UpdateZkNodeAction"
-               icon="/icons/zookeeper_small.png" text="Update ZK Node" description="Update ZooKeeper Node">
+                icon="/icons/zookeeper_small.png" text="Update ZK Node" description="Update ZooKeeper Node">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
