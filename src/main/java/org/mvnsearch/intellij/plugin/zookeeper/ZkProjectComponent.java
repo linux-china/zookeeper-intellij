@@ -144,6 +144,11 @@ public class ZkProjectComponent extends MouseAdapter implements ProjectComponent
         return zkTree;
     }
 
+    public void reloadZkTree() {
+        zkTree.setModel(new ZkTreeModel(curator));
+        zkTree.updateUI();
+    }
+
     public CuratorFramework getCurator() {
         return curator;
     }

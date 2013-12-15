@@ -6,7 +6,6 @@ import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.ui.treeStructure.Tree;
 import org.apache.curator.framework.CuratorFramework;
-import org.jetbrains.generate.tostring.util.StringUtil;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 
@@ -33,7 +32,7 @@ public class DeleteNodeAction extends AnAction {
                 CuratorFramework curator = zkProjectComponent.getCurator();
                 try {
                     curator.delete().forPath(currentNode.getFilePath());
-                    zkProjectComponent.reloadzkTree();
+                    zkProjectComponent.reloadZkTree();
                 } catch (Exception ignore) {
 
                 }
