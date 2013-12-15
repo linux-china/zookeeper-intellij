@@ -1,15 +1,16 @@
 package org.mvnsearch.intellij.plugin.zookeeper;
 
 import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.ide.actions.CollapseAllAction;
+import com.intellij.ide.actions.ExpandAllAction;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.util.IconLoader;
@@ -20,6 +21,7 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
 import org.apache.curator.framework.CuratorFramework;
@@ -106,11 +108,21 @@ public class ZkProjectComponent extends MouseAdapter implements ProjectComponent
                 return component;
             }
         });
-
         final ContentManager contentManager = toolWindow.getContentManager();
+        SimpleToolWindowPanel panel = new SimpleToolWindowPanel(true);
         JBScrollPane jbScrollPane = new JBScrollPane(zkTree);
-        final Content content = contentManager.getFactory().createContent(jbScrollPane, null, false);
+        panel.add(jbScrollPane);
+        panel.setToolbar(createToolBar());
+        final Content content = contentManager.getFactory().createContent(panel, null, false);
         contentManager.addContent(content);
+    }
+
+    private JComponent createToolBar() {
+        ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("ZK.Toolbar");
+        String place = ActionPlaces.EDITOR_TOOLBAR;
+        JPanel toolBarPanel = new JPanel(new GridLayout());
+        toolBarPanel.add(ActionManager.getInstance().createActionToolbar(place, actionGroup, true).getComponent());
+        return toolBarPanel;
     }
 
     public void projectClosed() {
