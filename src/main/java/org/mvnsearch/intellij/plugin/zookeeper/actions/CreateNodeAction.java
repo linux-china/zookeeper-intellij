@@ -2,8 +2,13 @@ package org.mvnsearch.intellij.plugin.zookeeper.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypeManager;
+import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.treeStructure.Tree;
 import org.apache.curator.framework.CuratorFramework;
 import org.jetbrains.generate.tostring.util.StringUtil;
@@ -35,8 +40,16 @@ public class CreateNodeAction extends AnAction {
                     CuratorFramework curator = zkProjectComponent.getCurator();
                     ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
                     try {
-                        curator.create().forPath(currentNode.getSubNode(nodeName).getFilePath(), "".getBytes());
+                        ZkNode newNode = currentNode.getSubNode(nodeName);
+                        curator.create().forPath(newNode.getFilePath(), "".getBytes());
                         zkProjectComponent.reloadZkTree();
+                        FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(nodeName);
+                        if (!fileType.getName().equals(FileTypes.UNKNOWN.getName())) {
+                            VirtualFile virtualFile = zkProjectComponent.getFileSystem().findFileByPath(newNode.getFilePath());
+                            if (anActionEvent.getProject() != null && virtualFile != null) {
+                                new OpenFileDescriptor(anActionEvent.getProject(), virtualFile).navigate(true);
+                            }
+                        }
                     } catch (Exception ignore) {
                         ignore.printStackTrace();
                     }
