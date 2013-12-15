@@ -139,6 +139,10 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         return true;
     }
 
+    public ZkVirtualFileSystem getFileSystem() {
+        return fileSystem;
+    }
+
     public Tree getZkTree() {
         return zkTree;
     }
