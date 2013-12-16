@@ -31,7 +31,7 @@ public class DeleteNodeAction extends AnAction {
             public void run() {
                 CuratorFramework curator = zkProjectComponent.getCurator();
                 try {
-                    curator.delete().forPath(currentNode.getFilePath());
+                    curator.delete().deletingChildrenIfNeeded().forPath(currentNode.getFilePath());
                     zkProjectComponent.reloadZkTree();
                 } catch (Exception ignore) {
 
