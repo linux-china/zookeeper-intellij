@@ -8,10 +8,10 @@ import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.treeStructure.Tree;
 import org.apache.curator.framework.CuratorFramework;
-import org.jetbrains.generate.tostring.util.StringUtil;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 
