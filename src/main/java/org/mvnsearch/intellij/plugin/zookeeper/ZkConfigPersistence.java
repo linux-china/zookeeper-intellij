@@ -2,9 +2,9 @@ package org.mvnsearch.intellij.plugin.zookeeper;
 
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.generate.tostring.util.StringUtil;
 
 /**
  * zookeeper configuration persistence
