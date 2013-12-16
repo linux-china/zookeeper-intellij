@@ -22,11 +22,11 @@ public class UpdateZkNodeAction extends EditorAction {
         super(new EditorActionHandler() {
             @Override
             public void execute(Editor editor, DataContext dataContext) {
-                VirtualFile virtualFile = CommonDataKeys.VIRTUAL_FILE.getData(dataContext);
+                VirtualFile virtualFile = DataKeys.VIRTUAL_FILE.getData(dataContext);
                 if (virtualFile != null && virtualFile instanceof ZkNodeVirtualFile) {
                     ZkNodeVirtualFile nodeFile = (ZkNodeVirtualFile) virtualFile;
                     String nodeContent = editor.getDocument().getText();
-                    Project project = CommonDataKeys.PROJECT.getData(dataContext);
+                    Project project = DataKeys.PROJECT.getData(dataContext);
                     ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
                     try {
                         zkProjectComponent.getCurator().setData().forPath(nodeFile.getFilePath(), nodeContent.getBytes());
