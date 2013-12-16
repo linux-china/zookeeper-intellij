@@ -25,13 +25,14 @@
 
     <change-notes><![CDATA[<html><body>
          <ul>
-                <li>0.0.1: initial version</li>
+             <li>0.0.1: initial version</li>
+             <li>0.0.2: IntelliJ IDEA 12 support</li>
          </ul>
         </body></html>]]>
     </change-notes>
 
     <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
-    <idea-version since-build="133.0"/>
+    <idea-version since-build="129.0"/>
 
     <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
          on how to target different products -->
