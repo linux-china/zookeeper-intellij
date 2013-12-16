@@ -14,4 +14,5 @@ ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in ID
 ### RoadMap
 
 * Code completion for Curator and ZooKeeper Client
-* ZK node stat
+* Dispay ZK node stat
+* Dispay Server info on configurable panel: echo stat |nc localhost 2181
