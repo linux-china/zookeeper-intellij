@@ -2,7 +2,7 @@
 <idea-plugin version="2">
     <id>zookeeper</id>
     <name>ZooKeeper</name>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
         Jacky Chan
     </vendor>
