@@ -19,3 +19,5 @@ ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in ID
 * Dispay ZK node stat
 * Dispay Server info on configurable panel: echo stat |nc localhost 2181
 * Dump ZK: find file support
+* Local History
+* Diff with ZK Node
