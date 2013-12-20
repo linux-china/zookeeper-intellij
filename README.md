@@ -21,3 +21,7 @@ ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in ID
 * Dump ZK: find file support
 * Local History
 * Diff with ZK Node
+* namespace filter
+* encoding support
+* multi ip
+* directory node edit
