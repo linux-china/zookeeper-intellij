@@ -16,8 +16,9 @@
     	<ul>
     		<li>Double click the leaf to edit node value</li>
     		<li>Right click editor to update node value into ZooKeeper</li>
-    		<li>Right click ZK tree to execute "add" or "delete" operation</li>
+    		<li>Right click ZK tree to execute "edit", "add" and "delete" operation</li>
     		<li>Recursive support for add and delete operation</li>
+    		<li>Node filter support</li>
     		<li>Click "Refresh" button on "ZooKeeper" tool window to reload ZK tree</li>
     	</ul>
     	</body></html>]]>
