@@ -61,6 +61,9 @@
             <separator/>
             <action id="Delete Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.DeleteNodeAction"
                     icon="/actions/delete.png" text="Delete Node"/>
+            <separator/>
+            <action id="Open in Editor" class="org.mvnsearch.intellij.plugin.zookeeper.actions.OpenZkNodeInEditorAction"
+                    icon="/actions/edit.png" text="Open in Editor"/>
         </group>
         <action id="UpdateZkNodeAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.UpdateZkNodeAction"
                 icon="/icons/zookeeper_small.png" text="Update ZK Node" description="Update ZooKeeper Node">
