@@ -11,11 +11,11 @@ import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkNodeVirtualFile;
 import javax.swing.tree.TreePath;
 
 /**
- * open with text editor action
+ * open zk node in editor action
  *
  * @author linux_china
  */
-public class OpenWithTextEditorAction extends AnAction {
+public class OpenZkNodeInEditorAction extends AnAction {
 
     public void actionPerformed(AnActionEvent actionEvent) {
         ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(actionEvent.getProject());
