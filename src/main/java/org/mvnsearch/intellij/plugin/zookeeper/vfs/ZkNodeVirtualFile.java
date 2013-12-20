@@ -1,5 +1,7 @@
 package org.mvnsearch.intellij.plugin.zookeeper.vfs;
 
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
@@ -40,6 +42,10 @@ public class ZkNodeVirtualFile extends VirtualFile {
         } catch (Exception ignore) {
 
         }
+    }
+
+    public void setLeaf() {
+        this.isLeaf = true;
     }
 
     public void setFileListener(VirtualFileListener fileListener) {
@@ -149,6 +155,15 @@ public class ZkNodeVirtualFile extends VirtualFile {
         if (fileListener != null) {
             fileListener.contentsChanged(new VirtualFileEvent(requestor, this, null, oldModstamp, myModStamp));
         }
+    }
+
+    @NotNull
+    public FileType getFileType() {
+        FileType fileType = super.getFileType();
+        if (fileType.getName().equalsIgnoreCase(FileTypes.UNKNOWN.getName())) {
+            return FileTypes.PLAIN_TEXT;
+        }
+        return fileType;
     }
 
     public CuratorFramework getCurator() {
