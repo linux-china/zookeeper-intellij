@@ -8,6 +8,7 @@ import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
+import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.util.IconLoader;
@@ -96,7 +97,11 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
                         ((WrappingIconPanel) component).setIcon(rootIcon);
                     } else if (node.isLeaf()) {
                         FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(node.getName());
-                        ((WrappingIconPanel) component).setIcon(fileType.getIcon());
+                        if (fileType.getName().equalsIgnoreCase(FileTypes.UNKNOWN.getName())) {
+                            ((WrappingIconPanel) component).setIcon(FileTypes.PLAIN_TEXT.getIcon());
+                        } else {
+                            ((WrappingIconPanel) component).setIcon(fileType.getIcon());
+                        }
                     }
                 }
 
