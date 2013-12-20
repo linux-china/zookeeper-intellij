@@ -7,6 +7,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.generate.tostring.util.StringUtil;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -23,6 +24,9 @@ public class ZkVirtualFileSystem extends DummyFileSystem {
 
     public ZkVirtualFileSystem(CuratorFramework curator, String charsetName) {
         this.curator = curator;
+        if (StringUtil.isEmpty(charsetName)) {
+            charsetName = "utf-8";
+        }
         this.charset = Charset.forName(charsetName);
     }
 
