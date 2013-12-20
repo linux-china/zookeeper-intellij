@@ -81,7 +81,7 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         ToolWindow toolWindow = ToolWindowManager.getInstance(project).registerToolWindow("ZooKeeper", false, ToolWindowAnchor.LEFT);
         toolWindow.setTitle("ZooKeeper");
         toolWindow.setIcon(rootIcon);
-        ZkNode.ROOT_NAME = ZkConfigPersistence.getInstance(project).getUrl();
+        ZkNode.ROOT_NAME = ZkConfigPersistence.getInstance(project).getZkUrl();
         zkTree = new Tree(new ZkTreeModel(curator, ZkConfigPersistence.getInstance(project).whitePaths));
         zkTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.installOn(zkTree);
@@ -162,7 +162,7 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         }
         ZkConfigPersistence config = ZkConfigPersistence.getInstance(project);
         if (config.isAvailable()) {
-            this.curator = CuratorFrameworkFactory.newClient(config.getUrl(), new ExponentialBackoffRetry(1000, 0, 1000));
+            this.curator = CuratorFrameworkFactory.newClient(config.getZkUrl(), new ExponentialBackoffRetry(1000, 0, 1000));
             curator.start();
         }
     }
