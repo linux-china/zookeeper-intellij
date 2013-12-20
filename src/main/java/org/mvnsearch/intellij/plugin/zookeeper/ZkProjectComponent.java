@@ -73,7 +73,7 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
     public void projectOpened() {
         initZk();
         if (this.curator != null) {
-            this.fileSystem = new ZkVirtualFileSystem(curator);
+            this.fileSystem = new ZkVirtualFileSystem(curator, ZkConfigPersistence.getInstance(project).charset);
             initToolWindow();
         }
     }
