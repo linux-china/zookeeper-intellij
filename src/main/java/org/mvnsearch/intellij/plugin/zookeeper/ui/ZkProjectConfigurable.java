@@ -65,13 +65,17 @@ public class ZkProjectConfigurable implements Configurable {
         config.port = Integer.valueOf(portTextField.getText().trim());
         boolean oldEnabled = config.enabled;
         config.enabled = enableZooKeeperCheckBox.isSelected();
-        config.whitePaths = pathsTextField.getText();
         if (!oldEnabled && config.enabled) {
             ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
             zkProjectComponent.initZk();
             if (ToolWindowManager.getInstance(project).getToolWindow("ZooKeeper") == null) {
                 zkProjectComponent.initToolWindow();
             }
+        }
+        config.whitePaths = pathsTextField.getText();
+        if (config.enabled) {
+            ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
+            zkProjectComponent.reloadZkTree();
         }
     }
 
