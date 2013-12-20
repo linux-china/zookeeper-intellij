@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * zookeeper virtual file system
@@ -18,14 +19,20 @@ import java.io.IOException;
 public class ZkVirtualFileSystem extends DummyFileSystem {
     public static final String PROTOCOL = "zk";
     private CuratorFramework curator;
+    private Charset charset = Charset.forName("utf-8");
 
-    public ZkVirtualFileSystem(CuratorFramework curator) {
+    public ZkVirtualFileSystem(CuratorFramework curator, String charsetName) {
         this.curator = curator;
+        this.charset = Charset.forName(charsetName);
     }
 
     @NotNull
     public String getProtocol() {
         return PROTOCOL;
+    }
+
+    public Charset getCharset() {
+        return this.charset;
     }
 
     @Nullable
