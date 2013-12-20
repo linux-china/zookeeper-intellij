@@ -3,6 +3,7 @@ package org.mvnsearch.intellij.plugin.zookeeper.ui;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.ToolWindowManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +22,7 @@ public class ZkProjectConfigurable implements Configurable {
     private JPanel root;
     private JTextField hostTextField;
     private JTextField portTextField;
+    private JTextField pathsTextField;
     private JCheckBox enableZooKeeperCheckBox;
     private ZkConfigPersistence config;
 
@@ -48,8 +50,14 @@ public class ZkProjectConfigurable implements Configurable {
     public boolean isModified() {
         String newHost = hostTextField.getText().trim();
         String newPort = portTextField.getText().trim();
+        String newPath = pathsTextField.getText();
+        if (newPath == null) {
+            newPath = "";
+        } else {
+            newPath = newPath.trim();
+        }
         return !(newHost.equals(config.host) && Integer.valueOf(newPort).equals(config.port)
-                && config.enabled == enableZooKeeperCheckBox.isSelected());
+                && config.enabled == enableZooKeeperCheckBox.isSelected() && (newPath.equals(config.whitePaths)));
     }
 
     public void apply() throws ConfigurationException {
@@ -57,6 +65,7 @@ public class ZkProjectConfigurable implements Configurable {
         config.port = Integer.valueOf(portTextField.getText().trim());
         boolean oldEnabled = config.enabled;
         config.enabled = enableZooKeeperCheckBox.isSelected();
+        config.whitePaths = pathsTextField.getText();
         if (!oldEnabled && config.enabled) {
             ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
             zkProjectComponent.initZk();
@@ -74,6 +83,7 @@ public class ZkProjectConfigurable implements Configurable {
             portTextField.setText("2181");
         }
         enableZooKeeperCheckBox.setSelected(config.enabled);
+        pathsTextField.setText(config.whitePaths);
     }
 
     public void disposeUIResources() {
