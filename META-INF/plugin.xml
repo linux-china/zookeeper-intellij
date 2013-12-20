@@ -2,7 +2,7 @@
 <idea-plugin version="2">
     <id>zookeeper</id>
     <name>ZooKeeper</name>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
         Jacky Chan
     </vendor>
@@ -25,8 +25,9 @@
 
     <change-notes><![CDATA[<html><body>
          <ul>
-             <li>0.0.1: initial version</li>
+             <li>0.0.3: Path filter; Node edit; charset</li>
              <li>0.0.2: IntelliJ IDEA 12 support</li>
+             <li>0.0.1: initial version</li>
          </ul>
         </body></html>]]>
     </change-notes>
@@ -56,14 +57,14 @@
                     icon="/actions/refresh.png" text="Refresh" description="Refresh ZooKeeper"/>
         </group>
         <group id="ZK.OperationMenu" text="ZooKeeper Operations" popup="true">
+            <action id="Open in Editor" class="org.mvnsearch.intellij.plugin.zookeeper.actions.OpenZkNodeInEditorAction"
+                    icon="/actions/edit.png" text="Open in Editor"/>
+            <separator/>
             <action id="Create Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.CreateNodeAction"
                     icon="/actions/new.png" text="Create Node"/>
             <separator/>
             <action id="Delete Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.DeleteNodeAction"
                     icon="/actions/delete.png" text="Delete Node"/>
-            <separator/>
-            <action id="Open in Editor" class="org.mvnsearch.intellij.plugin.zookeeper.actions.OpenZkNodeInEditorAction"
-                    icon="/actions/edit.png" text="Open in Editor"/>
         </group>
         <action id="UpdateZkNodeAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.UpdateZkNodeAction"
                 icon="/icons/zookeeper_small.png" text="Update ZK Node" description="Update ZooKeeper Node">
