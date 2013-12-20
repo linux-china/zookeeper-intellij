@@ -1,11 +1,13 @@
 package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
+import com.intellij.openapi.util.text.StringUtil;
 import org.apache.curator.framework.CuratorFramework;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,9 +18,13 @@ import java.util.List;
 public class ZkTreeModel implements TreeModel {
     private ZkNode root = new ZkNode("/", null);
     private CuratorFramework curator;
+    private List<String> whitePaths;
 
-    public ZkTreeModel(CuratorFramework curator) {
+    public ZkTreeModel(CuratorFramework curator, String whitePaths) {
         this.curator = curator;
+        if (StringUtil.isNotEmpty(whitePaths)) {
+            this.whitePaths = Arrays.asList(whitePaths.trim().split("[\\s;]+"));
+        }
     }
 
     public Object getRoot() {
@@ -65,7 +71,10 @@ public class ZkTreeModel implements TreeModel {
         try {
             List<String> nodes = curator.getChildren().forPath(node.getFilePath());
             for (String temp : nodes) {
-                children.add(new ZkNode(node.getFilePath(), temp));
+                ZkNode zkNode = new ZkNode(node.getFilePath(), temp);
+                if (isWhitePath(zkNode.getFilePath())) {
+                    children.add(zkNode);
+                }
             }
             if (nodes.isEmpty()) {
                 node.setLeaf(true);
@@ -73,5 +82,19 @@ public class ZkTreeModel implements TreeModel {
         } catch (Exception ignore) {
         }
         return children;
+    }
+
+    private boolean isWhitePath(String filePath) {
+        if (this.whitePaths != null) {
+            boolean legal = false;
+            for (String whitePath : whitePaths) {
+                if (filePath.startsWith(whitePath)) {
+                    legal = true;
+                    break;
+                }
+            }
+            return legal;
+        }
+        return true;
     }
 }
