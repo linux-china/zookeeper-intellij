@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -155,6 +156,11 @@ public class ZkNodeVirtualFile extends VirtualFile {
         if (fileListener != null) {
             fileListener.contentsChanged(new VirtualFileEvent(requestor, this, null, oldModstamp, myModStamp));
         }
+    }
+
+    @Override
+    public Charset getCharset() {
+        return fileSystem.getCharset();
     }
 
     @NotNull
