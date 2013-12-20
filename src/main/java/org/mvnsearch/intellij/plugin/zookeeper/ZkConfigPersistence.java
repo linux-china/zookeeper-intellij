@@ -19,6 +19,7 @@ import java.util.List;
 public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPersistence> {
     public String host;
     public Integer port;
+    public String charset;
     public String whitePaths;
     public boolean enabled;
 

@@ -24,6 +24,7 @@ public class ZkProjectConfigurable implements Configurable {
     private JTextField portTextField;
     private JTextField pathsTextField;
     private JCheckBox enableZooKeeperCheckBox;
+    private JTextField charsetTextField;
     private ZkConfigPersistence config;
 
     public ZkProjectConfigurable(Project project) {
@@ -51,18 +52,20 @@ public class ZkProjectConfigurable implements Configurable {
         String newHost = hostTextField.getText().trim();
         String newPort = portTextField.getText().trim();
         String newPath = pathsTextField.getText();
+        String newCharset = charsetTextField.getText();
         if (newPath == null) {
             newPath = "";
         } else {
             newPath = newPath.trim();
         }
-        return !(newHost.equals(config.host) && Integer.valueOf(newPort).equals(config.port)
+        return !(newHost.equals(config.host) && Integer.valueOf(newPort).equals(config.port) && newCharset.equals(config.charset)
                 && config.enabled == enableZooKeeperCheckBox.isSelected() && (newPath.equals(config.whitePaths)));
     }
 
     public void apply() throws ConfigurationException {
         config.host = hostTextField.getText().trim();
         config.port = Integer.valueOf(portTextField.getText().trim());
+        config.charset = charsetTextField.getText();
         boolean oldEnabled = config.enabled;
         config.enabled = enableZooKeeperCheckBox.isSelected();
         if (!oldEnabled && config.enabled) {
@@ -81,13 +84,10 @@ public class ZkProjectConfigurable implements Configurable {
 
     public void reset() {
         hostTextField.setText(config.host);
-        if (config.port != null) {
-            portTextField.setText(String.valueOf(config.port));
-        } else {
-            portTextField.setText("2181");
-        }
+        portTextField.setText(config.port == null ? "2181" : String.valueOf(config.port));
         enableZooKeeperCheckBox.setSelected(config.enabled);
         pathsTextField.setText(config.whitePaths);
+        charsetTextField.setText(config.charset == null ? "UTF-8" : config.charset);
     }
 
     public void disposeUIResources() {
