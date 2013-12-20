@@ -43,10 +43,4 @@ public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPer
         return host + ":" + port;
     }
 
-    public List<String> getFilterPaths() {
-        if (StringUtil.isNotEmpty(whitePaths)) {
-            return Arrays.asList(whitePaths.trim().split(";"));
-        }
-        return Collections.emptyList();
-    }
 }
