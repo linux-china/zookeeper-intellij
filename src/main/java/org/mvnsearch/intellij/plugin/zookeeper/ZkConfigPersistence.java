@@ -6,6 +6,10 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * zookeeper configuration persistence
  *
@@ -15,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPersistence> {
     public String host;
     public Integer port;
+    public String whitePaths;
     public boolean enabled;
 
     public static ZkConfigPersistence getInstance(Project project) {
@@ -36,5 +41,12 @@ public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPer
 
     public String getUrl() {
         return host + ":" + port;
+    }
+
+    public List<String> getFilterPaths() {
+        if (StringUtil.isNotEmpty(whitePaths)) {
+            return Arrays.asList(whitePaths.trim().split(";"));
+        }
+        return Collections.emptyList();
     }
 }
