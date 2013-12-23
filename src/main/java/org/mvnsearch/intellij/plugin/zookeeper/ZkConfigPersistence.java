@@ -50,4 +50,12 @@ public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPer
         }
     }
 
+    public String getTitle() {
+        String zkUrl = getZkUrl();
+        if (zkUrl.contains(",")) {
+            return zkUrl.substring(0, zkUrl.indexOf(","));
+        }
+        return zkUrl;
+    }
+
 }
