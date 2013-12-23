@@ -21,9 +21,11 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.util.io.IOUtil;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.common.IOUtils;
 import org.jdesktop.swingx.renderer.DefaultTreeRenderer;
 import org.jdesktop.swingx.renderer.WrappingIconPanel;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +38,9 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.Socket;
 
 /**
  * Zoo Keeper project component
@@ -167,9 +172,25 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
             this.curator.close();
         }
         ZkConfigPersistence config = ZkConfigPersistence.getInstance(project);
-        if (config.isAvailable()) {
+        if (config.isAvailable() && ruok(config.getFirstServer())) {
             this.curator = CuratorFrameworkFactory.newClient(config.getZkUrl(), new ExponentialBackoffRetry(1000, 0, 1000));
             curator.start();
+        }
+    }
+
+    public boolean ruok(String server) {
+        try {
+            String[] parts = server.split(":");
+            Socket sock = new Socket(parts[0], Integer.valueOf(parts[1]));
+            sock.getOutputStream().write("ruok".getBytes());
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            IOUtils.copyBytes(sock.getInputStream(), bos, 1000);
+            if (!sock.isClosed()) {
+                sock.close();
+            }
+            return "imok".equals(new String(bos.toByteArray()));
+        } catch (Exception e) {
+            return false;
         }
     }
 }
