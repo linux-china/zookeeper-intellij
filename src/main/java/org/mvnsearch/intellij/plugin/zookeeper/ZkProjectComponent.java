@@ -174,8 +174,8 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         if (config.isAvailable() && ruok(config.getFirstServer())) {
             this.curator = CuratorFrameworkFactory.newClient(config.getZkUrl(), new ExponentialBackoffRetry(1000, 0, 1000));
             curator.start();
+            this.fileSystem = new ZkVirtualFileSystem(curator, ZkConfigPersistence.getInstance(project).charset);
         }
-        this.fileSystem = new ZkVirtualFileSystem(curator, ZkConfigPersistence.getInstance(project).charset);
     }
 
     public boolean ruok(String server) {
