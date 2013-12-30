@@ -43,8 +43,8 @@ public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPer
     public String getZkUrl() {
         if (host.contains(":")) {
             return host;
-        } else if (host.contains(";") || host.contains(",")) {
-            return host.replace("[\\s;]+", ":" + port + ",");
+        } else if (host.contains(",")) {
+            return host.replaceAll("[\\s,]+", ":" + port + ",");
         } else {
             return host + ":" + port;
         }
