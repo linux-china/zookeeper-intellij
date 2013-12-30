@@ -63,21 +63,25 @@ public class ZkProjectConfigurable implements Configurable {
     }
 
     public void apply() throws ConfigurationException {
+        String oldHost = config.host;
         config.host = hostTextField.getText().trim();
         config.port = Integer.valueOf(portTextField.getText().trim());
         config.charset = charsetTextField.getText();
         boolean oldEnabled = config.enabled;
         config.enabled = enableZooKeeperCheckBox.isSelected();
+        ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
         if (!oldEnabled && config.enabled) {
-            ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
             zkProjectComponent.initZk();
             if (ToolWindowManager.getInstance(project).getToolWindow("ZooKeeper") == null) {
                 zkProjectComponent.initToolWindow();
             }
         }
+        // host changed to init zk again
+        if (oldHost != null && !oldHost.equals(config.host)) {
+            zkProjectComponent.initZk();
+        }
         config.whitePaths = pathsTextField.getText();
         if (config.enabled) {
-            ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
             zkProjectComponent.reloadZkTree();
         }
     }
