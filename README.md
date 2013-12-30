@@ -12,6 +12,11 @@ ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in ID
 * Create Node: path support, such as com/xxx/yyy
 * Delete Node: rmr support
 * Refresh ZK tree on tool window bar
+* Diff with ZK Node
+* namespace filter
+* encoding support
+* multi ip
+* directory node edit
 
 ### RoadMap
 
@@ -20,8 +25,3 @@ ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in ID
 * Dispay Server info on configurable panel: echo stat |nc localhost 2181
 * Dump ZK: find file support
 * Local History
-* Diff with ZK Node
-* namespace filter
-* encoding support
-* multi ip
-* directory node edit
