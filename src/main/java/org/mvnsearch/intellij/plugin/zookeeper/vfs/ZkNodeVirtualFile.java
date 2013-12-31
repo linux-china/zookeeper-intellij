@@ -120,6 +120,9 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     @NotNull
     public byte[] contentsToByteArray() throws IOException {
+        if(this.content==null) {
+            return "".getBytes();
+        }
         return this.content;
     }
 
@@ -133,6 +136,9 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public long getLength() {
+        if(this.content==null) {
+            return 0;
+        }
         return this.content.length;
     }
 
