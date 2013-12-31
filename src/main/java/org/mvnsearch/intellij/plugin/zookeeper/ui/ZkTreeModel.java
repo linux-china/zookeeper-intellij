@@ -6,9 +6,7 @@ import org.apache.curator.framework.CuratorFramework;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * zoo keeper tree model
@@ -70,14 +68,20 @@ public class ZkTreeModel implements TreeModel {
         List<ZkNode> children = new ArrayList<ZkNode>();
         try {
             List<String> nodes = curator.getChildren().forPath(node.getFilePath());
-            for (String temp : nodes) {
-                ZkNode zkNode = new ZkNode(node.getFilePath(), temp);
-                if (isWhitePath(zkNode.getFilePath())) {
-                    children.add(zkNode);
-                }
-            }
             if (nodes.isEmpty()) {
                 node.setLeaf(true);
+            } else {
+                Collections.sort(nodes, new Comparator<String>() {
+                    public int compare(String s, String s2) {
+                        return s.compareTo(s2);
+                    }
+                });
+                for (int i = 0; i < nodes.size() && i < 100; i++) {
+                    ZkNode zkNode = new ZkNode(node.getFilePath(), nodes.get(i));
+                    if (isWhitePath(zkNode.getFilePath())) {
+                        children.add(zkNode);
+                    }
+                }
             }
         } catch (Exception ignore) {
         }
