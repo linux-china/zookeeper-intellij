@@ -92,7 +92,10 @@ public class ZkTreeModel implements TreeModel {
         if (this.whitePaths != null) {
             boolean legal = false;
             for (String whitePath : whitePaths) {
-                if (filePath.startsWith(whitePath) || whitePath.startsWith(filePath)) {
+                if (filePath.startsWith(whitePath)) {
+                    legal = true;
+                    break;
+                } else if (whitePath.lastIndexOf("/") > 1 && whitePath.startsWith(filePath)) {
                     legal = true;
                     break;
                 }
