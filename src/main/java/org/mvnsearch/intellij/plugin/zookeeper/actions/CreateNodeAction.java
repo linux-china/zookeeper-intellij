@@ -57,7 +57,8 @@ public class CreateNodeAction extends AnAction {
                             }
                             currentNode = newNode;
                         }
-                        zkProjectComponent.reloadZkTree();
+                        zkTree.updateUI();
+                        zkTree.expandPath(treePath);
                         if (newNode != null) {
                             FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(nodeName);
                             if (!fileType.getName().equals(FileTypes.UNKNOWN.getName())) {
