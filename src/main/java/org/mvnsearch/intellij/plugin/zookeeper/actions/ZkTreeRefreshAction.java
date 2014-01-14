@@ -12,6 +12,6 @@ import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 public class ZkTreeRefreshAction extends AnAction {
     public void actionPerformed(AnActionEvent anActionEvent) {
         ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(anActionEvent.getProject());
-        zkProjectComponent.reloadZkTree();
+        zkProjectComponent.getZkTree().updateUI();
     }
 }
