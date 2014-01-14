@@ -26,7 +26,7 @@
 
     <change-notes><![CDATA[<html><body>
          <ul>
-             <li>0.0.5: Refresh tree redisng for create, delete and fresh; zk connection optimized; some bugs fixed.</li>
+             <li>0.0.5: Refresh tree redesign for create, delete and fresh; zk connection optimized; some bugs fixed.</li>
              <li>0.0.4: All JetBrains poruducts support</li>
              <li>0.0.3: Path filter; Node edit; charset</li>
              <li>0.0.2: IntelliJ IDEA 12 support</li>
