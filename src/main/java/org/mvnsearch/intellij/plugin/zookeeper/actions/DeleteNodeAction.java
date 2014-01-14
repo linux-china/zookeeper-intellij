@@ -20,7 +20,7 @@ import javax.swing.tree.TreePath;
 public class DeleteNodeAction extends AnAction {
     public void actionPerformed(final AnActionEvent anActionEvent) {
         final ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(anActionEvent.getProject());
-        Tree zkTree = zkProjectComponent.getZkTree();
+        final Tree zkTree = zkProjectComponent.getZkTree();
         TreePath treePath = zkTree.getSelectionPath();
         final ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
         final DialogBuilder builder = new DialogBuilder(anActionEvent.getProject());
@@ -32,7 +32,7 @@ public class DeleteNodeAction extends AnAction {
                 CuratorFramework curator = zkProjectComponent.getCurator();
                 try {
                     curator.delete().deletingChildrenIfNeeded().forPath(currentNode.getFilePath());
-                    zkProjectComponent.reloadZkTree();
+                    zkTree.updateUI();
                 } catch (Exception ignore) {
 
                 }
