@@ -22,6 +22,7 @@ public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPer
     public String charset;
     public String whitePaths;
     public boolean enabled;
+    public boolean tooltip;
 
     public static ZkConfigPersistence getInstance(Project project) {
         return ServiceManager.getService(project, ZkConfigPersistence.class);
