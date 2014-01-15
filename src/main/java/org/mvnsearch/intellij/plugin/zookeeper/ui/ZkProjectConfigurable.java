@@ -59,8 +59,12 @@ public class ZkProjectConfigurable implements Configurable {
         } else {
             newPath = newPath.trim();
         }
-        return !(newHost.equals(config.host) && Integer.valueOf(newPort).equals(config.port) && newCharset.equals(config.charset)
-                && config.enabled == enableZooKeeperCheckBox.isSelected() && (newPath.equals(config.whitePaths)));
+        return !(newHost.equals(config.host)
+                && Integer.valueOf(newPort).equals(config.port)
+                && newCharset.equals(config.charset)
+                && config.enabled == enableZooKeeperCheckBox.isSelected()
+                && config.tooltip == statTooltipCheckBox.isSelected()
+                && (newPath.equals(config.whitePaths)));
     }
 
     public void apply() throws ConfigurationException {
