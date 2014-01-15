@@ -1,5 +1,6 @@
 package org.mvnsearch.intellij.plugin.zookeeper;
 
+import com.intellij.ide.IconUtilEx;
 import com.intellij.ide.ui.customization.CustomizationUtil;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -21,6 +22,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.util.IconUtil;
 import com.intellij.util.io.IOUtil;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -101,11 +103,14 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
                         ((WrappingIconPanel) component).setIcon(rootIcon);
                     } else if (node.isLeaf()) {
                         FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(node.getName());
+                        Icon icon = fileType.getIcon();
                         if (fileType.getName().equalsIgnoreCase(FileTypes.UNKNOWN.getName())) {
-                            ((WrappingIconPanel) component).setIcon(FileTypes.PLAIN_TEXT.getIcon());
-                        } else {
-                            ((WrappingIconPanel) component).setIcon(fileType.getIcon());
+                            icon = FileTypes.PLAIN_TEXT.getIcon();
                         }
+                        if (node.isEphemeral() && icon != null) {
+                            icon = IconLoader.getTransparentIcon(icon);
+                        }
+                        ((WrappingIconPanel) component).setIcon(icon);
                     }
                 }
 
