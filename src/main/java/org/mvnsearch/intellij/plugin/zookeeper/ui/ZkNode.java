@@ -1,5 +1,9 @@
 package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
+import org.apache.zookeeper.data.Stat;
+
+import java.util.Date;
+
 /**
  * ZooKeeper Node
  *
@@ -9,10 +13,7 @@ public class ZkNode {
     public static String ROOT_NAME = "/";
     private String path;
     private String name;
-    private boolean ephemeral;
-    private int childrenCount;
-    private boolean isLeaf;
-    private boolean filled;
+    private Stat stat;
 
     public ZkNode(String path, String name) {
         this.path = path;
@@ -20,39 +21,23 @@ public class ZkNode {
     }
 
     public boolean isLeaf() {
-        return isLeaf;
+        return stat != null && stat.getNumChildren() == 0;
     }
 
     public boolean isRoot() {
         return path.equals("/") && name == null;
     }
 
-    public void setLeaf(boolean isLeaf) {
-        this.isLeaf = isLeaf;
-    }
-
     public boolean isEphemeral() {
-        return ephemeral;
-    }
-
-    public void setEphemeral(boolean ephemeral) {
-        this.ephemeral = ephemeral;
+        return stat != null && stat.getEphemeralOwner() == 0;
     }
 
     public int getChildrenCount() {
-        return childrenCount;
-    }
-
-    public void setChildrenCount(int childrenCount) {
-        this.childrenCount = childrenCount;
+        return stat != null ? stat.getNumChildren() : 0;
     }
 
     public boolean isFilled() {
-        return filled;
-    }
-
-    public void setFilled(boolean filled) {
-        this.filled = filled;
+        return stat != null;
     }
 
     public String getPath() {
@@ -87,8 +72,30 @@ public class ZkNode {
         return new ZkNode(getFilePath(), subNodeName);
     }
 
+    public Stat getStat() {
+        return stat;
+    }
+
+    public void setStat(Stat stat) {
+        this.stat = stat;
+    }
+
     @Override
     public String toString() {
         return name == null ? ROOT_NAME : name;
+    }
+
+    public String getTooltip() {
+        return "cZxid = " + stat.getCzxid() + "\n" +
+                "ctime = " + new Date(stat.getCtime()) + "\n" +
+                "mZxid = " + stat.getMzxid() + "\n" +
+                "mtime = " + new Date(stat.getMtime()) + "\n" +
+                "pZxid = " + stat.getPzxid() + "\n" +
+                "cversion = " + stat.getCversion() + "\n" +
+                "dataVersion = " + stat.getVersion() + "\n" +
+                "aclVersion = " + stat.getAversion() + "\n" +
+                "ephemeralOwner = " + stat.getEphemeralOwner() + "\n" +
+                "dataLength =" + stat.getDataLength() + " \n" +
+                "numChildren = " + stat.getNumChildren();
     }
 }
