@@ -87,7 +87,7 @@ public class ZkProjectConfigurable implements Configurable {
             zkProjectComponent.initZk();
         }
         config.whitePaths = pathsTextField.getText();
-        if (config.enabled) {
+        if (config.isAvailable()) {
             zkProjectComponent.reloadZkTree();
         }
     }
