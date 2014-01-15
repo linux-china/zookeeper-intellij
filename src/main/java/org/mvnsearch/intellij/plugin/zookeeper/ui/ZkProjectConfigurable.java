@@ -25,6 +25,7 @@ public class ZkProjectConfigurable implements Configurable {
     private JTextField pathsTextField;
     private JCheckBox enableZooKeeperCheckBox;
     private JTextField charsetTextField;
+    private JCheckBox statTooltipCheckBox;
     private ZkConfigPersistence config;
 
     public ZkProjectConfigurable(Project project) {
@@ -69,6 +70,7 @@ public class ZkProjectConfigurable implements Configurable {
         config.charset = charsetTextField.getText();
         boolean oldEnabled = config.enabled;
         config.enabled = enableZooKeeperCheckBox.isSelected();
+        config.tooltip = statTooltipCheckBox.isSelected();
         ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
         if (!oldEnabled && config.enabled) {
             zkProjectComponent.initZk();
@@ -92,6 +94,7 @@ public class ZkProjectConfigurable implements Configurable {
         enableZooKeeperCheckBox.setSelected(config.enabled);
         pathsTextField.setText(config.whitePaths);
         charsetTextField.setText(config.charset == null ? "UTF-8" : config.charset);
+        statTooltipCheckBox.setSelected(config.tooltip);
     }
 
     public void disposeUIResources() {
