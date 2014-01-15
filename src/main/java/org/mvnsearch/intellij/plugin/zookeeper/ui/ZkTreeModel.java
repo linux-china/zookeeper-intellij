@@ -2,6 +2,7 @@ package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
 import com.intellij.openapi.util.text.StringUtil;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.zookeeper.data.Stat;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
@@ -35,11 +36,33 @@ public class ZkTreeModel implements TreeModel {
     }
 
     public int getChildCount(Object parent) {
-        return getChildren((ZkNode) parent).size();
+        ZkNode zkNode = (ZkNode) parent;
+        if (!zkNode.isFilled()) {
+            fillZkNode(zkNode);
+        }
+        return zkNode.getChildrenCount();
     }
 
     public boolean isLeaf(Object node) {
-        return getChildren((ZkNode) node).size() == 0;
+        ZkNode zkNode = (ZkNode) node;
+        if (!zkNode.isFilled()) {
+            fillZkNode(zkNode);
+        }
+        return zkNode.isLeaf();
+    }
+
+    private void fillZkNode(ZkNode zkNode) {
+        try {
+            Stat stat = curator.checkExists().forPath(zkNode.getFilePath());
+            if (stat != null) {
+                zkNode.setLeaf(stat.getNumChildren() == 0);
+                zkNode.setEphemeral(stat.getEphemeralOwner() > 0);
+                zkNode.setChildrenCount(stat.getNumChildren());
+                zkNode.setFilled(true);
+            }
+        } catch (Exception ignore) {
+
+        }
     }
 
     public void valueForPathChanged(TreePath treePath, Object o) {
