@@ -2,7 +2,7 @@
 <idea-plugin version="2">
     <id>zookeeper</id>
     <name>ZooKeeper</name>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
         Jacky Chan
     </vendor>
@@ -20,12 +20,14 @@
     		<li>Recursive support for add and delete operation</li>
     		<li>Node filter support</li>
     		<li>Click "Refresh" button on "ZooKeeper" tool window to refress ZK tree or node</li>
+    		<li>Icon for different type, and transparent icon for ephemeral node</li>
     	</ul>
     	</body></html>]]>
     </description>
 
     <change-notes><![CDATA[<html><body>
          <ul>
+             <li>0.0.6: Optimized for children count, leaf logic. Transparent icon for ephemeral node</li>
              <li>0.0.5: Refresh tree redesign for create, delete and fresh; zk connection optimized; some bugs fixed.</li>
              <li>0.0.4: All JetBrains poruducts support</li>
              <li>0.0.3: Path filter; Node edit; charset</li>
