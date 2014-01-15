@@ -55,10 +55,7 @@ public class ZkTreeModel implements TreeModel {
         try {
             Stat stat = curator.checkExists().forPath(zkNode.getFilePath());
             if (stat != null) {
-                zkNode.setLeaf(stat.getNumChildren() == 0);
-                zkNode.setEphemeral(stat.getEphemeralOwner() > 0);
-                zkNode.setChildrenCount(stat.getNumChildren());
-                zkNode.setFilled(true);
+                zkNode.setStat(stat);
             }
         } catch (Exception ignore) {
 
@@ -89,21 +86,23 @@ public class ZkTreeModel implements TreeModel {
 
     public List<ZkNode> getChildren(ZkNode node) {
         List<ZkNode> children = new ArrayList<ZkNode>();
+        if (!node.isFilled()) {
+            fillZkNode(node);
+        }
+        if (node.isLeaf()) {
+            return children;
+        }
         try {
             List<String> nodes = curator.getChildren().forPath(node.getFilePath());
-            if (nodes.isEmpty()) {
-                node.setLeaf(true);
-            } else {
-                Collections.sort(nodes, new Comparator<String>() {
-                    public int compare(String s, String s2) {
-                        return s.compareTo(s2);
-                    }
-                });
-                for (int i = 0; i < nodes.size() && i < 100; i++) {
-                    ZkNode zkNode = new ZkNode(node.getFilePath(), nodes.get(i));
-                    if (isWhitePath(zkNode.getFilePath())) {
-                        children.add(zkNode);
-                    }
+            Collections.sort(nodes, new Comparator<String>() {
+                public int compare(String s, String s2) {
+                    return s.compareTo(s2);
+                }
+            });
+            for (int i = 0; i < nodes.size() && i < 100; i++) {
+                ZkNode zkNode = new ZkNode(node.getFilePath(), nodes.get(i));
+                if (isWhitePath(zkNode.getFilePath())) {
+                    children.add(zkNode);
                 }
             }
         } catch (Exception ignore) {
