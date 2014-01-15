@@ -29,7 +29,7 @@ public class ZkNode {
     }
 
     public boolean isEphemeral() {
-        return stat != null && stat.getEphemeralOwner() == 0;
+        return stat != null && stat.getEphemeralOwner() > 0;
     }
 
     public int getChildrenCount() {
