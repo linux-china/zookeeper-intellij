@@ -169,8 +169,13 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
 
     public void reloadZkTree() {
         ZkNode.ROOT_NAME = ZkConfigPersistence.getInstance(project).getTitle();
-        zkTree.setModel(new ZkTreeModel(curator, ZkConfigPersistence.getInstance(project).whitePaths));
-        zkTree.updateUI();
+        if (curator == null) {
+            initZk();
+        }
+        if (curator != null) {
+            zkTree.setModel(new ZkTreeModel(curator, ZkConfigPersistence.getInstance(project).whitePaths));
+            zkTree.updateUI();
+        }
     }
 
     public CuratorFramework getCurator() {
