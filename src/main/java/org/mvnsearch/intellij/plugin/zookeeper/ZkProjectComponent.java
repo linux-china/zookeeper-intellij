@@ -85,11 +85,13 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
     }
 
     public void initToolWindow() {
+        final ZkConfigPersistence config = ZkConfigPersistence.getInstance(project);
         ToolWindow toolWindow = ToolWindowManager.getInstance(project).registerToolWindow("ZooKeeper", false, ToolWindowAnchor.LEFT);
         toolWindow.setTitle("ZooKeeper");
         toolWindow.setIcon(rootIcon);
-        ZkNode.ROOT_NAME = ZkConfigPersistence.getInstance(project).getTitle();
-        zkTree = new Tree(new ZkTreeModel(curator, ZkConfigPersistence.getInstance(project).whitePaths));
+        ZkNode.ROOT_NAME = config.getTitle();
+        zkTree = new Tree(new ZkTreeModel(curator, config.whitePaths));
+        ToolTipManager.sharedInstance().registerComponent(zkTree);
         zkTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.installOn(zkTree);
         CustomizationUtil.installPopupHandler(zkTree, "ZK.OperationMenu", ActionPlaces.UNKNOWN);
@@ -99,8 +101,9 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
                 Component component = super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
                 if (value instanceof ZkNode && component instanceof WrappingIconPanel) {
                     ZkNode node = (ZkNode) value;
+                    WrappingIconPanel wrappingPanel = (WrappingIconPanel) component;
                     if (node.isRoot()) {
-                        ((WrappingIconPanel) component).setIcon(rootIcon);
+                        wrappingPanel.setIcon(rootIcon);
                     } else if (node.isLeaf()) {
                         FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(node.getName());
                         Icon icon = fileType.getIcon();
@@ -110,7 +113,10 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
                         if (node.isEphemeral() && icon != null) {
                             icon = IconLoader.getTransparentIcon(icon);
                         }
-                        ((WrappingIconPanel) component).setIcon(icon);
+                        wrappingPanel.setIcon(icon);
+                    }
+                    if (config.tooltip) {
+                        wrappingPanel.setToolTipText(node.getTooltip());
                     }
                 }
 
