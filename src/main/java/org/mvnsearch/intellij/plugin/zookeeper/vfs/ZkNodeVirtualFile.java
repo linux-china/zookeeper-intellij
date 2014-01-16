@@ -35,11 +35,13 @@ public class ZkNodeVirtualFile extends VirtualFile {
     public ZkNodeVirtualFile(ZkVirtualFileSystem fileSystem, String filePath) {
         this.fileSystem = fileSystem;
         this.filePath = filePath;
+        if (!filePath.equals("/") && filePath.endsWith("/")) {
+            this.filePath = filePath.substring(0, filePath.length() - 1);
+        }
         fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-        this.stat = new Stat();
         try {
-            this.content = getCurator().getData().storingStatIn(stat).forPath(filePath);
-            this.isLeaf = getCurator().getChildren().forPath(filePath).isEmpty();
+            this.stat = getCurator().checkExists().forPath(filePath);
+            this.isLeaf = stat.getNumChildren() == 0;
         } catch (Exception ignore) {
 
         }
@@ -88,16 +90,26 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public VirtualFile getParent() {
-        return null;
+        if ("/".equals(filePath)) {
+            return null;
+        }
+        int slashIndex = filePath.lastIndexOf("/");
+        if (slashIndex == 0) {
+            return new ZkNodeVirtualFile(this.fileSystem, "/");
+        } else {
+            String parentPath = filePath.substring(0, slashIndex);
+            return new ZkNodeVirtualFile(this.fileSystem, parentPath);
+        }
     }
 
     public VirtualFile[] getChildren() {
         try {
-            List<String> children = getCurator().getChildren().forPath(this.getPath());
+            List<String> children = getCurator().getChildren().forPath(filePath);
             if (children != null && !children.isEmpty()) {
                 VirtualFile[] files = new VirtualFile[children.size()];
                 for (int i = 0; i < children.size(); i++) {
-                    files[i] = new ZkNodeVirtualFile(fileSystem, children.get(i));
+                    String childName = children.get(i);
+                    files[i] = new ZkNodeVirtualFile(fileSystem, filePath.endsWith("/") ? filePath + childName : filePath + "/" + childName);
                 }
                 return files;
             }
@@ -120,10 +132,21 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     @NotNull
     public byte[] contentsToByteArray() throws IOException {
-        if(this.content==null) {
-            return "".getBytes();
-        }
+        checkContent();
         return this.content;
+    }
+
+    public void checkContent() {
+        if (content == null) {
+            try {
+                this.content = getCurator().getData().storingStatIn(stat).forPath(filePath);
+            } catch (Exception ignore) {
+
+            }
+            if (this.content == null) {
+                content = "".getBytes();
+            }
+        }
     }
 
     public long getTimeStamp() {
@@ -136,9 +159,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public long getLength() {
-        if(this.content==null) {
-            return 0;
-        }
+        checkContent();
         return this.content.length;
     }
 
@@ -147,6 +168,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public InputStream getInputStream() throws IOException {
+        checkContent();
         return new ByteArrayInputStream(content);
     }
 
@@ -184,5 +206,10 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     public boolean equals(Object obj) {
         return obj instanceof ZkNodeVirtualFile && ((ZkNodeVirtualFile) obj).getFilePath().equals(filePath);
+    }
+
+    @Override
+    public String toString() {
+        return this.filePath;
     }
 }
