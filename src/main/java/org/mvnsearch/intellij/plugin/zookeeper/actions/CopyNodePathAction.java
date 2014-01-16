@@ -2,6 +2,8 @@ package org.mvnsearch.intellij.plugin.zookeeper.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.impl.status.StatusBarUtil;
 import com.intellij.ui.treeStructure.Tree;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
@@ -20,14 +22,17 @@ import java.awt.datatransfer.Transferable;
  */
 public class CopyNodePathAction extends AnAction implements ClipboardOwner {
     public void actionPerformed(final AnActionEvent anActionEvent) {
-        ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(anActionEvent.getProject());
+        Project project = anActionEvent.getProject();
+        ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
         Tree zkTree = zkProjectComponent.getZkTree();
         TreePath treePath = zkTree.getSelectionPath();
         ZkNode currentNode = (ZkNode) treePath.getLastPathComponent();
         if (currentNode != null) {
-            StringSelection stringSelection = new StringSelection(currentNode.getFilePath());
+            String filePath = currentNode.getFilePath();
+            StringSelection stringSelection = new StringSelection(filePath);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, this);
+            StatusBarUtil.setStatusBarInfo(project, "'" + filePath + "' has been copied into clipboard!");
         }
     }
 
