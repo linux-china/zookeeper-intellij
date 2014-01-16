@@ -150,7 +150,7 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         Tree source = (Tree) mouseEvent.getSource();
         TreePath treePath = source.getSelectionPath();
         ZkNode selectedNode = (ZkNode) treePath.getLastPathComponent();
-        if (selectedNode.isLeaf()) {
+        if (selectedNode.isLeaf() && !selectedNode.isBinary()) {
             VirtualFile file = fileSystem.findFileByPath(selectedNode.getFilePath());
             if (file != null && project != null) {
                 new OpenFileDescriptor(project, file).navigate(true);
