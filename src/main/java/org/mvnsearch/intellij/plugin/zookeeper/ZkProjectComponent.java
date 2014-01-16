@@ -1,6 +1,5 @@
 package org.mvnsearch.intellij.plugin.zookeeper;
 
-import com.intellij.ide.IconUtilEx;
 import com.intellij.ide.ui.customization.CustomizationUtil;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -23,7 +22,6 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.IconUtil;
-import com.intellij.util.io.IOUtil;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -41,8 +39,8 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.net.Socket;
+import java.util.Arrays;
 
 /**
  * Zoo Keeper project component
@@ -107,7 +105,9 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
                     } else if (node.isLeaf()) {
                         FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(node.getName());
                         Icon icon = fileType.getIcon();
-                        if (fileType.getName().equalsIgnoreCase(FileTypes.UNKNOWN.getName())) {
+                        if (node.isBinary()) {
+                            icon = FileTypes.ARCHIVE.getIcon();
+                        } else if (fileType.getName().equalsIgnoreCase(FileTypes.UNKNOWN.getName())) {
                             icon = FileTypes.PLAIN_TEXT.getIcon();
                         }
                         if (node.isEphemeral() && icon != null) {
