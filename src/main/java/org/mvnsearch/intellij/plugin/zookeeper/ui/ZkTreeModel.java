@@ -32,7 +32,11 @@ public class ZkTreeModel implements TreeModel {
 
     public Object getChild(Object parent, int i) {
         List<ZkNode> children = getChildren((ZkNode) parent);
-        return children.get(i);
+        if (i < children.size()) {
+            return children.get(i);
+        } else {
+            return null;
+        }
     }
 
     public int getChildCount(Object parent) {
