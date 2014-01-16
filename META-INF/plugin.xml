@@ -73,6 +73,9 @@
             <separator/>
             <action id="Delete Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.DeleteNodeAction"
                     icon="/actions/delete.png" text="Delete Node"/>
+            <separator/>
+            <action id="Copy Node Path" class="org.mvnsearch.intellij.plugin.zookeeper.actions.CopyNodePathAction"
+                    icon="/actions/copy.png" text="Copy Node Path"/>
         </group>
         <action id="UpdateZkNodeAction" class="org.mvnsearch.intellij.plugin.zookeeper.actions.UpdateZkNodeAction"
                 icon="/icons/zookeeper_small.png" text="Update ZK Node" description="Update ZooKeeper Node">
