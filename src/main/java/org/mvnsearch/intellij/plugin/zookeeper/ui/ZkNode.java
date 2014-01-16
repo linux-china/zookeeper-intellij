@@ -1,7 +1,9 @@
 package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
+import com.intellij.openapi.fileTypes.FileTypes;
 import org.apache.zookeeper.data.Stat;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -10,6 +12,8 @@ import java.util.Date;
  * @author linux_china
  */
 public class ZkNode {
+    private static java.util.List<String> binaryExtNames = Arrays.asList("pb", "bin", "msgpack");
+
     public static String ROOT_NAME = "/";
     private String path;
     private String name;
@@ -83,6 +87,14 @@ public class ZkNode {
     @Override
     public String toString() {
         return name == null ? ROOT_NAME : name;
+    }
+
+    public boolean isBinary() {
+        String extName = null;
+        if (name.contains(".")) {
+            extName = name.substring(name.lastIndexOf(".") + 1);
+        }
+        return extName != null && binaryExtNames.contains(extName.toLowerCase());
     }
 
     public String getTooltip() {
