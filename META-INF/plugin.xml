@@ -69,7 +69,7 @@
             <action id="Open in Editor" class="org.mvnsearch.intellij.plugin.zookeeper.actions.OpenZkNodeInEditorAction"
                     icon="/actions/edit.png" text="Open in Editor"/>
             <separator/>
-            <action id="Create Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.CreateNodeAction"
+            <action id="Create Child Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.CreateNodeAction"
                     icon="/actions/new.png" text="Create Node"/>
             <separator/>
             <action id="Delete Node" class="org.mvnsearch.intellij.plugin.zookeeper.actions.DeleteNodeAction"
@@ -88,5 +88,6 @@
         <projectConfigurable instance="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkProjectConfigurable"/>
         <projectService serviceInterface="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"
                         serviceImplementation="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"/>
+        <psi.referenceContributor implementation="org.mvnsearch.intellij.plugin.zookeeper.ZkNodePathReferenceContributor"/>
     </extensions>
 </idea-plugin>
