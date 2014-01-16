@@ -2,20 +2,10 @@ package org.mvnsearch.intellij.plugin.zookeeper.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.openapi.fileTypes.FileTypes;
-import com.intellij.openapi.ui.DialogBuilder;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.treeStructure.Tree;
-import org.apache.curator.framework.CuratorFramework;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 
-import javax.swing.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
