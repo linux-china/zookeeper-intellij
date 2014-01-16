@@ -40,10 +40,10 @@ public class ZkTreeModel implements TreeModel {
         if (!zkNode.isFilled()) {
             fillZkNode(zkNode);
         }
-        if (!zkNode.isLeaf()) {
+        if (!zkNode.isLeaf() && whitePaths != null && !whitePaths.isEmpty()) {
             return getChildren(zkNode).size();
         }
-        return 0;
+        return zkNode.getChildrenCount();
     }
 
     public boolean isLeaf(Object node) {
