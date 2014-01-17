@@ -88,6 +88,6 @@
         <projectConfigurable instance="org.mvnsearch.intellij.plugin.zookeeper.ui.ZkProjectConfigurable"/>
         <projectService serviceInterface="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"
                         serviceImplementation="org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence"/>
-        <psi.referenceContributor implementation="org.mvnsearch.intellij.plugin.zookeeper.ZkNodePathReferenceContributor"/>
+        <!--<psi.referenceContributor implementation="org.mvnsearch.intellij.plugin.zookeeper.ZkNodePathReferenceContributor"/>-->
     </extensions>
 </idea-plugin>
