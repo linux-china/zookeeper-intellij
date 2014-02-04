@@ -232,7 +232,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public static byte[] unzip(byte[] zipContent) throws Exception {
-        File tempFile = File.createTempFile("demo", "zip");
+        File tempFile = File.createTempFile("zk_node_11", "zip");
         FileOutputStream fos = new FileOutputStream(tempFile);
         fos.write(zipContent);
         fos.close();
