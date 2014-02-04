@@ -7,6 +7,9 @@ import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.util.LocalTimeCounter;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.data.Stat;
 import org.jetbrains.annotations.NotNull;
@@ -211,5 +214,27 @@ public class ZkNodeVirtualFile extends VirtualFile {
     @Override
     public String toString() {
         return this.filePath;
+    }
+
+    public static byte[] unzip(byte[] zipContent) throws Exception {
+        ZipArchiveInputStream zis = new ZipArchiveInputStream(new ByteArrayInputStream(zipContent));
+        ZipArchiveEntry entry = zis.getNextZipEntry();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        for (int i = 0; i < entry.getSize(); i++) {
+            bos.write(zis.read());
+        }
+        return bos.toByteArray();
+    }
+
+    public static byte[] zip(String name, byte[] content) throws Exception {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ZipArchiveOutputStream zipOutput = new ZipArchiveOutputStream(bos);
+        ZipArchiveEntry entry = new ZipArchiveEntry(name);
+        entry.setSize(content.length);
+        zipOutput.putArchiveEntry(entry);
+        zipOutput.write(content);
+        zipOutput.closeArchiveEntry();
+        zipOutput.close();
+        return bos.toByteArray();
     }
 }
