@@ -14,6 +14,7 @@ import com.intellij.ui.treeStructure.Tree;
 import org.apache.curator.framework.CuratorFramework;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
+import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkNodeVirtualFile;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -53,7 +54,12 @@ public class CreateNodeAction extends AnAction {
                             newNode = currentNode.getSubNode(part);
                             // check exists
                             if (curator.checkExists().forPath(newNode.getFilePath()) == null) {
-                                curator.create().forPath(newNode.getFilePath(), "".getBytes());
+                                if (nodeName.endsWith(".zip")) {
+                                    String entryName = nodeName.replace(".zip", "");
+                                    curator.create().forPath(newNode.getFilePath(), ZkNodeVirtualFile.zip(entryName, "".getBytes()));
+                                } else {
+                                    curator.create().forPath(newNode.getFilePath(), "".getBytes());
+                                }
                             }
                             currentNode = newNode;
                         }
