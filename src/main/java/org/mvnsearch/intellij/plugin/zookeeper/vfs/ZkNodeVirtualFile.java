@@ -8,9 +8,12 @@ import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.util.LocalTimeCounter;
+import com.intellij.util.io.IOUtil;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.data.Stat;
 import org.jetbrains.annotations.NotNull;
@@ -229,12 +232,16 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     public static byte[] unzip(byte[] zipContent) throws Exception {
-        ZipArchiveInputStream zis = new ZipArchiveInputStream(new ByteArrayInputStream(zipContent));
-        ZipArchiveEntry entry = zis.getNextZipEntry();
+        File tempFile = File.createTempFile("demo", "zip");
+        FileOutputStream fos = new FileOutputStream(tempFile);
+        fos.write(zipContent);
+        fos.close();
+        ZipFile zipFile = new ZipFile(tempFile);
+        ZipArchiveEntry entry = zipFile.getEntries().nextElement();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        for (int i = 0; i < entry.getSize(); i++) {
-            bos.write(zis.read());
-        }
+        IOUtils.copy(zipFile.getInputStream(entry), bos);
+        zipFile.close();
+        tempFile.delete();
         return bos.toByteArray();
     }
 
