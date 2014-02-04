@@ -28,7 +28,12 @@ public class UpdateZkNodeAction extends EditorAction {
                     Project project = CommonDataKeys.PROJECT.getData(dataContext);
                     ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
                     try {
-                        zkProjectComponent.getCurator().setData().forPath(nodeFile.getFilePath(), nodeContent.getBytes());
+                        if (nodeFile.isSingleFileZip()) {
+                            zkProjectComponent.getCurator().setData().forPath(nodeFile.getFilePath(),
+                                    ZkNodeVirtualFile.zip(nodeFile.getName().replace(".zip", ""), nodeContent.getBytes()));
+                        } else {
+                            zkProjectComponent.getCurator().setData().forPath(nodeFile.getFilePath(), nodeContent.getBytes());
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
