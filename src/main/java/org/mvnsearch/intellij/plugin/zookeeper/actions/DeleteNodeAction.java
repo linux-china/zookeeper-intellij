@@ -41,7 +41,6 @@ public class DeleteNodeAction extends AnAction {
                 }
                 builder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
                 StatusBarUtil.setStatusBarInfo(project, "'" + currentNode.getFilePath() + "' has been deleted!");
-
             }
         });
         builder.showModal(true);
