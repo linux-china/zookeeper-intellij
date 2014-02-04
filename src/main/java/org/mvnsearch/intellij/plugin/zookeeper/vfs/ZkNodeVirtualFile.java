@@ -1,6 +1,7 @@
 package org.mvnsearch.intellij.plugin.zookeeper.vfs;
 
 import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileEvent;
@@ -143,6 +144,9 @@ public class ZkNodeVirtualFile extends VirtualFile {
         if (content == null) {
             try {
                 this.content = getCurator().getData().storingStatIn(stat).forPath(filePath);
+                if (isSingleFileZip()) {
+                    this.content = unzip(content);
+                }
             } catch (Exception ignore) {
 
             }
@@ -196,7 +200,11 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     @NotNull
     public FileType getFileType() {
-        FileType fileType = super.getFileType();
+        String newFileName = this.fileName;
+        if (isSingleFileZip()) {
+            newFileName = newFileName.replace(".zip", "");
+        }
+        FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(newFileName);
         if (fileType.getName().equalsIgnoreCase(FileTypes.UNKNOWN.getName())) {
             return FileTypes.PLAIN_TEXT;
         }
@@ -214,6 +222,10 @@ public class ZkNodeVirtualFile extends VirtualFile {
     @Override
     public String toString() {
         return this.filePath;
+    }
+
+    public boolean isSingleFileZip() {
+        return isLeaf && fileName.endsWith(".zip") && fileName.replace(".zip", "").contains(".");
     }
 
     public static byte[] unzip(byte[] zipContent) throws Exception {
