@@ -237,7 +237,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
         ZipFile zipFile = new ZipFile(tempFile);
         ZipEntry entry = zipFile.entries().nextElement();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        IOUtils.copyBytes(zipFile.getInputStream(entry), bos, 1000);
+        IOUtils.copyBytes(zipFile.getInputStream(entry), bos, 1000, true);
         zipFile.close();
         tempFile.delete();
         return bos.toByteArray();
