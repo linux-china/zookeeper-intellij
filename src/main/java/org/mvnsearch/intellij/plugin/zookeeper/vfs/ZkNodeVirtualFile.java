@@ -8,11 +8,6 @@ import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.util.LocalTimeCounter;
-import com.intellij.util.io.IOUtil;
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
-import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.data.Stat;
@@ -22,6 +17,9 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 /**
  * ZooKeeper node virtual file
@@ -237,7 +235,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
         fos.write(zipContent);
         fos.close();
         ZipFile zipFile = new ZipFile(tempFile);
-        ZipArchiveEntry entry = zipFile.getEntries().nextElement();
+        ZipEntry entry = zipFile.entries().nextElement();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         IOUtils.copy(zipFile.getInputStream(entry), bos);
         zipFile.close();
@@ -247,12 +245,12 @@ public class ZkNodeVirtualFile extends VirtualFile {
 
     public static byte[] zip(String name, byte[] content) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ZipArchiveOutputStream zipOutput = new ZipArchiveOutputStream(bos);
-        ZipArchiveEntry entry = new ZipArchiveEntry(name);
+        ZipOutputStream zipOutput = new ZipOutputStream(bos);
+        ZipEntry entry = new ZipEntry(name);
         entry.setSize(content.length);
-        zipOutput.putArchiveEntry(entry);
+        zipOutput.putNextEntry(entry);
         zipOutput.write(content);
-        zipOutput.closeArchiveEntry();
+        zipOutput.closeEntry();
         zipOutput.close();
         return bos.toByteArray();
     }
