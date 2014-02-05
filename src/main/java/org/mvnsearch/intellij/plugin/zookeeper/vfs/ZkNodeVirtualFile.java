@@ -8,8 +8,8 @@ import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.util.LocalTimeCounter;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.zookeeper.common.IOUtils;
 import org.apache.zookeeper.data.Stat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -237,7 +237,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
         ZipFile zipFile = new ZipFile(tempFile);
         ZipEntry entry = zipFile.entries().nextElement();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        IOUtils.copy(zipFile.getInputStream(entry), bos);
+        IOUtils.copyBytes(zipFile.getInputStream(entry), bos, 1000);
         zipFile.close();
         tempFile.delete();
         return bos.toByteArray();
