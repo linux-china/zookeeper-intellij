@@ -2,7 +2,7 @@
 <idea-plugin version="2">
     <id>zookeeper</id>
     <name>ZooKeeper</name>
-    <version>0.0.9</version>
+    <version>0.0.10</version>
     <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
         Jacky Chan
     </vendor>
@@ -28,6 +28,7 @@
 
     <change-notes><![CDATA[<html><body>
          <ul>
+             <li>0.0.9: zip & unzip support</li>
              <li>0.0.9: Copy node path</li>
              <li>0.0.8: Bug fix for path filter</li>
              <li>0.0.7: Stat tooltip support</li>
