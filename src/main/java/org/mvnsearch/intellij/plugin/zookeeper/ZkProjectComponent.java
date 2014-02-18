@@ -21,7 +21,6 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.IconUtil;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -40,7 +39,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
 import java.net.Socket;
-import java.util.Arrays;
 
 /**
  * Zoo Keeper project component
@@ -149,6 +147,9 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
     protected boolean onDoubleClick(MouseEvent mouseEvent) {
         Tree source = (Tree) mouseEvent.getSource();
         TreePath treePath = source.getSelectionPath();
+        if (treePath == null) {
+            return true;
+        }
         ZkNode selectedNode = (ZkNode) treePath.getLastPathComponent();
         if (selectedNode.isLeaf() && !selectedNode.isBinary()) {
             VirtualFile file = fileSystem.findFileByPath(selectedNode.getFilePath());
