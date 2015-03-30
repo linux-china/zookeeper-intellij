@@ -2,6 +2,12 @@ IntelliJ IDEA ZooKeeper Plugin
 =======================================
 ZooKeeper plugin for IntelliJ IDEA, and you can operate ZooKeeper directly in IDEA.
 
+### Install
+Add this to the Custom plugin repositories list:
+https://github.com/bonifaido/zookeeper-intellij/raw/master/plugins.xml
+
+Tested with IntelliJ 14.1.
+
 ### Features
 
 * ZooKeeper configuration for project: enable, host, port
