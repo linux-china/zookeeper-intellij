@@ -1,0 +1,3 @@
+<plugins>
+    <plugin id="me.bonifaido.zookeeper" url="https://github.com/bonifaido/zookeeper-intellij/raw/master/zookeeper-intellij.zip" version="0.1.0"/>
+</plugins>

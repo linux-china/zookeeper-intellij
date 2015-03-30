@@ -13,7 +13,11 @@ import org.apache.zookeeper.data.Stat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -60,15 +64,18 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     @NotNull
+    @Override
     public String getName() {
         return this.fileName;
     }
 
     @NotNull
+    @Override
     public VirtualFileSystem getFileSystem() {
         return this.fileSystem;
     }
 
+    @Override
     public String getPath() {
         String path = "/";
         if (filePath.lastIndexOf("/") > 0) {
@@ -81,18 +88,22 @@ public class ZkNodeVirtualFile extends VirtualFile {
         return filePath;
     }
 
+    @Override
     public boolean isWritable() {
         return true;
     }
 
+    @Override
     public boolean isDirectory() {
         return !isLeaf;
     }
 
+    @Override
     public boolean isValid() {
         return true;
     }
 
+    @Override
     public VirtualFile getParent() {
         if ("/".equals(filePath)) {
             return null;
@@ -106,6 +117,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
         }
     }
 
+    @Override
     public VirtualFile[] getChildren() {
         try {
             List<String> children = getCurator().getChildren().forPath(filePath);
@@ -124,6 +136,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     @NotNull
+    @Override
     public OutputStream getOutputStream(final Object requestor, final long newModificationStamp, long newTimeStamp) throws IOException {
         return new ByteArrayOutputStream() {
             @Override
@@ -135,6 +148,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     @NotNull
+    @Override
     public byte[] contentsToByteArray() throws IOException {
         checkContent();
         return this.content;
@@ -156,6 +170,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
         }
     }
 
+    @Override
     public long getTimeStamp() {
         return myModStamp;
     }
@@ -165,15 +180,18 @@ public class ZkNodeVirtualFile extends VirtualFile {
         return myTimeStamp;
     }
 
+    @Override
     public long getLength() {
         checkContent();
         return this.content.length;
     }
 
+    @Override
     public void refresh(boolean asynchronous, boolean recursive, Runnable postRunnable) {
 
     }
 
+    @Override
     public InputStream getInputStream() throws IOException {
         checkContent();
         return new ByteArrayInputStream(content);
@@ -199,6 +217,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
     }
 
     @NotNull
+    @Override
     public FileType getFileType() {
         String newFileName = this.fileName;
         if (isSingleFileZip()) {
@@ -215,6 +234,7 @@ public class ZkNodeVirtualFile extends VirtualFile {
         return fileSystem.getCurator();
     }
 
+    @Override
     public boolean equals(Object obj) {
         return obj instanceof ZkNodeVirtualFile && ((ZkNodeVirtualFile) obj).getFilePath().equals(filePath);
     }

@@ -3,14 +3,16 @@ package org.mvnsearch.intellij.plugin.zookeeper.ui;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.ToolWindowManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkConfigPersistence;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * Zoo Keeper application configurable
@@ -35,20 +37,24 @@ public class ZkProjectConfigurable implements Configurable {
     }
 
     @Nls
+    @Override
     public String getDisplayName() {
         return "ZooKeeper";
     }
 
     @Nullable
+    @Override
     public String getHelpTopic() {
         return null;
     }
 
     @Nullable
+    @Override
     public JComponent createComponent() {
         return root;
     }
 
+    @Override
     public boolean isModified() {
         String newHost = hostTextField.getText().trim();
         String newPort = portTextField.getText().trim();
@@ -67,6 +73,7 @@ public class ZkProjectConfigurable implements Configurable {
                 && (newPath.equals(config.whitePaths)));
     }
 
+    @Override
     public void apply() throws ConfigurationException {
         String oldHost = config.host;
         config.host = hostTextField.getText().trim();
@@ -92,6 +99,7 @@ public class ZkProjectConfigurable implements Configurable {
         }
     }
 
+    @Override
     public void reset() {
         hostTextField.setText(config.host);
         portTextField.setText(config.port == null ? "2181" : String.valueOf(config.port));
@@ -101,6 +109,7 @@ public class ZkProjectConfigurable implements Configurable {
         statTooltipCheckBox.setSelected(config.tooltip);
     }
 
+    @Override
     public void disposeUIResources() {
 
     }

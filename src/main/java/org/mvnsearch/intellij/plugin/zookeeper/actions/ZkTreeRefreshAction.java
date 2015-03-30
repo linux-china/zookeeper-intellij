@@ -13,6 +13,7 @@ import javax.swing.tree.TreePath;
  * @author linux_china
  */
 public class ZkTreeRefreshAction extends AnAction {
+    @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(anActionEvent.getProject());
         Tree zkTree = zkProjectComponent.getZkTree();
@@ -21,6 +22,5 @@ public class ZkTreeRefreshAction extends AnAction {
         if (treePath != null) {
             zkTree.expandPath(treePath);
         }
-
     }
 }

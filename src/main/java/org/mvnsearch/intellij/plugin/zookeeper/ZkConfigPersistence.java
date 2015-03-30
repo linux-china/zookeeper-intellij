@@ -1,14 +1,14 @@
 package org.mvnsearch.intellij.plugin.zookeeper;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * zookeeper configuration persistence
@@ -29,10 +29,12 @@ public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPer
     }
 
     @Nullable
+    @Override
     public ZkConfigPersistence getState() {
         return this;
     }
 
+    @Override
     public void loadState(ZkConfigPersistence state) {
         XmlSerializerUtil.copyBean(state, this);
     }

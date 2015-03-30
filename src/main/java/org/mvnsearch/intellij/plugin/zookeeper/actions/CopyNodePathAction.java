@@ -9,7 +9,7 @@ import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
@@ -21,6 +21,7 @@ import java.awt.datatransfer.Transferable;
  * @author linux_china
  */
 public class CopyNodePathAction extends AnAction implements ClipboardOwner {
+    @Override
     public void actionPerformed(final AnActionEvent anActionEvent) {
         Project project = anActionEvent.getProject();
         ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
@@ -36,6 +37,7 @@ public class CopyNodePathAction extends AnAction implements ClipboardOwner {
         }
     }
 
+    @Override
     public void lostOwnership(Clipboard clipboard, Transferable transferable) {
 
     }

@@ -1,6 +1,5 @@
 package org.mvnsearch.intellij.plugin.zookeeper.ui;
 
-import com.intellij.openapi.fileTypes.FileTypes;
 import org.apache.zookeeper.data.Stat;
 
 import java.util.Arrays;
