@@ -5,7 +5,14 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.patterns.PsiJavaElementPattern;
 import com.intellij.patterns.PsiMethodPattern;
 import com.intellij.patterns.StringPattern;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFileSystemItem;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiReferenceContributor;
+import com.intellij.psi.PsiReferenceProvider;
+import com.intellij.psi.PsiReferenceRegistrar;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl;
 import com.intellij.util.ProcessingContext;
@@ -15,7 +22,9 @@ import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkVirtualFileSystem;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static com.intellij.patterns.PsiJavaPatterns.*;
+import static com.intellij.patterns.PsiJavaPatterns.literalExpression;
+import static com.intellij.patterns.PsiJavaPatterns.psiExpression;
+import static com.intellij.patterns.PsiJavaPatterns.psiMethod;
 import static com.intellij.patterns.StandardPatterns.string;
 
 /**
@@ -25,6 +34,7 @@ import static com.intellij.patterns.StandardPatterns.string;
  */
 public class ZkNodePathReferenceContributor extends PsiReferenceContributor {
 
+    @Override
     public void registerReferenceProviders(PsiReferenceRegistrar registrar) {
         final StringPattern methodName = string().oneOf("forPath");
         final PsiMethodPattern method = psiMethod().withName(methodName);

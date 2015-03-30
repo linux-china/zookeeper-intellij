@@ -17,6 +17,7 @@ import javax.swing.tree.TreePath;
  */
 public class OpenZkNodeInEditorAction extends AnAction {
 
+    @Override
     public void actionPerformed(AnActionEvent actionEvent) {
         ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(actionEvent.getProject());
         Tree zkTree = zkProjectComponent.getZkTree();

@@ -11,7 +11,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.tree.TreePath;
 
 /**
@@ -20,6 +20,7 @@ import javax.swing.tree.TreePath;
  * @author linux_china
  */
 public class DeleteNodeAction extends AnAction {
+    @Override
     public void actionPerformed(final AnActionEvent anActionEvent) {
         final Project project = anActionEvent.getProject();
         final ZkProjectComponent zkProjectComponent = ZkProjectComponent.getInstance(project);
@@ -31,6 +32,7 @@ public class DeleteNodeAction extends AnAction {
         final JLabel jTextField = new JLabel("Path: " + currentNode.getFilePath());
         builder.setCenterPanel(jTextField);
         builder.setOkOperation(new Runnable() {
+            @Override
             public void run() {
                 CuratorFramework curator = zkProjectComponent.getCurator();
                 try {

@@ -32,10 +32,15 @@ import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkTreeModel;
 import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkVirtualFileSystem;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.ToolTipManager;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
 import java.net.Socket;
@@ -60,19 +65,23 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         return project.getComponent(ZkProjectComponent.class);
     }
 
+    @Override
     public void initComponent() {
 
     }
 
+    @Override
     public void disposeComponent() {
 
     }
 
     @NotNull
+    @Override
     public String getComponentName() {
         return "ZkProjectComponent";
     }
 
+    @Override
     public void projectOpened() {
         initZk();
         if (this.curator != null) {
@@ -138,12 +147,14 @@ public class ZkProjectComponent extends DoubleClickListener implements ProjectCo
         return toolBarPanel;
     }
 
+    @Override
     public void projectClosed() {
         if (curator != null) {
             this.curator.close();
         }
     }
 
+    @Override
     protected boolean onDoubleClick(MouseEvent mouseEvent) {
         Tree source = (Tree) mouseEvent.getSource();
         TreePath treePath = source.getSelectionPath();

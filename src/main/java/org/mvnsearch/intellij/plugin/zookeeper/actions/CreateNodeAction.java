@@ -16,7 +16,7 @@ import org.mvnsearch.intellij.plugin.zookeeper.ZkProjectComponent;
 import org.mvnsearch.intellij.plugin.zookeeper.ui.ZkNode;
 import org.mvnsearch.intellij.plugin.zookeeper.vfs.ZkNodeVirtualFile;
 
-import javax.swing.*;
+import javax.swing.JTextField;
 import javax.swing.tree.TreePath;
 
 /**
@@ -25,6 +25,7 @@ import javax.swing.tree.TreePath;
  * @author linux_china
  */
 public class CreateNodeAction extends AnAction {
+    @Override
     public void actionPerformed(final AnActionEvent anActionEvent) {
         final DialogBuilder builder = new DialogBuilder(anActionEvent.getProject());
         builder.setTitle("Create Node");
@@ -32,6 +33,7 @@ public class CreateNodeAction extends AnAction {
         builder.setPreferredFocusComponent(jTextField);
         builder.setCenterPanel(jTextField);
         builder.setOkOperation(new Runnable() {
+            @Override
             public void run() {
                 String nodeName = jTextField.getText();
                 if (StringUtil.isNotEmpty(nodeName)) {
