@@ -1,5 +1,6 @@
 package org.mvnsearch.intellij.plugin.zookeeper.vfs;
 
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.ex.dummy.DummyFileSystem;
@@ -7,7 +8,6 @@ import org.apache.curator.framework.CuratorFramework;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.generate.tostring.util.StringUtil;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
