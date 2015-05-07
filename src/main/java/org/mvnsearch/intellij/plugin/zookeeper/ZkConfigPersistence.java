@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author linux_china
  */
-@State(name = "ZooKeeperConfig", storages = {@Storage(id = "main", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/zookeeper_config.xml")})
+@State(name = "ZooKeeperConfig", storages = {@Storage(id = "zookeeper",file = StoragePathMacros.PROJECT_FILE)})
 public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPersistence> {
     public String host;
     public Integer port;
