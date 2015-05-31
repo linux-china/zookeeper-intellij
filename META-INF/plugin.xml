@@ -2,7 +2,7 @@
 <idea-plugin version="2">
     <id>zookeeper</id>
     <name>ZooKeeper</name>
-    <version>0.0.11</version>
+    <version>0.0.12</version>
     <vendor email="linux_china@hotmail.com" url="https://twitter.com/linux_china">
         Jacky Chan
     </vendor>
@@ -28,6 +28,7 @@
 
     <change-notes><![CDATA[<html><body>
          <ul>
+             <li>0.0.12: Curator updated to 2.8.0</li>
              <li>0.0.11: IDEA 14.1 support with jars upgraded</li>
              <li>0.0.9: zip & unzip support</li>
              <li>0.0.9: Copy node path</li>
