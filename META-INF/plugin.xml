@@ -28,7 +28,7 @@
 
     <change-notes><![CDATA[<html><body>
          <ul>
-             <li>0.0.12: Curator updated to 2.8.0</li>
+             <li>0.0.12: Curator updated to 2.8.0 and with slf4j included</li>
              <li>0.0.11: IDEA 14.1 support with jars upgraded</li>
              <li>0.0.9: zip & unzip support</li>
              <li>0.0.9: Copy node path</li>
