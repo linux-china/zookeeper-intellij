@@ -8,12 +8,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="IntelliJ IDEA IU-141.914.3" jdkType="IDEA JDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/curator-client-2.7.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/curator-framework-2.11.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -22,16 +22,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/curator-framework-2.7.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/slf4j-api-1.7.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/curator-client-2.11.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -40,7 +31,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/zookeeper-3.4.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/zookeeper-3.4.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
