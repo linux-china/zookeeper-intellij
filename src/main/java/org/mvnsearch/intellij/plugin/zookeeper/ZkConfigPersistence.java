@@ -6,16 +6,12 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * zookeeper configuration persistence
  *
  * @author linux_china
  */
-@State(name = "ZooKeeperConfig", storages = {@Storage(id = "zookeeper",file = StoragePathMacros.PROJECT_FILE)})
+@State(name = "ZooKeeperConfig", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
 public class ZkConfigPersistence implements PersistentStateComponent<ZkConfigPersistence> {
     public String host;
     public Integer port;
